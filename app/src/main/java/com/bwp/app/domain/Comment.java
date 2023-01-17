@@ -62,7 +62,7 @@ public class Comment {
         this.content = content;
     }
 
-    public Comment of(UserAccount userAccount, Article article, Long parentId, String content) {
+    public static Comment of(UserAccount userAccount, Article article, Long parentId, String content) {
         return new Comment(userAccount, article, parentId, content);
 
 

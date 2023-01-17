@@ -65,7 +65,7 @@ public class UserAccount {
         this.notice = notice;
     }
 
-    public UserAccount of(String email, String pw, String nickname, String address, String phone, String notice) {
+    public static UserAccount of(String email, String pw, String nickname, String address, String phone, String notice) {
         return new UserAccount(email, pw, nickname, address, phone, notice);
     }
 

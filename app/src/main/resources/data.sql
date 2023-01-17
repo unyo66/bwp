@@ -133,7 +133,7 @@ insert into article (user_id, item_id, type, title, content, created_at, modifie
 insert into comment (user_id, article_id, parent_id, content, created_at, modified_at) values (27, 42, null, 'vitae quam', '2021-12-25 01:33:20', null);
 insert into comment (user_id, article_id, parent_id, content, created_at, modified_at) values (22, 31, 289, 'donec ut mauris eget massa', '2022-03-28 14:43:47', '2022-09-05 23:35:45');
 insert into comment (user_id, article_id, parent_id, content, created_at, modified_at) values (18, 61, 212, 'sed tristique in tempus sit', '2022-03-25 20:01:33', '2023-01-07 22:38:38');
-insert into comment (user_id, article_id, parent_id, content, created_at, modified_at) values (21, 80, null, 'cubilia curae donec pharetra', '2022-03-31 18:38:15', '2022-12-18 08:19:57');
+insert into comment (user_id, article_id, parent_id, content, created_at, modified_at) values (21, 80, 0, 'cubilia curae donec pharetra', '2022-03-31 18:38:15', '2022-12-18 08:19:57');
 insert into comment (user_id, article_id, parent_id, content, created_at, modified_at) values (6, 10, null, 'aliquet massa id lobortis convallis', '2022-03-06 17:45:02', '2022-12-20 04:45:23');
 insert into comment (user_id, article_id, parent_id, content, created_at, modified_at) values (18, 38, null, 'nec nisi volutpat eleifend donec', '2022-01-12 05:32:18', '2022-02-16 03:56:14');
 insert into comment (user_id, article_id, parent_id, content, created_at, modified_at) values (27, 44, 111, 'integer ac neque', '2022-06-11 09:02:03', '2022-10-04 20:58:30');

@@ -7,7 +7,9 @@ import org.springframework.data.annotation.CreatedDate;
 
 import javax.persistence.*;
 import java.time.LocalDateTime;
+import java.util.LinkedHashSet;
 import java.util.Objects;
+import java.util.Set;
 
 @Entity
 @Getter
@@ -63,8 +65,6 @@ public class Item {
     @CreatedDate
     @Column(nullable = false)
     private LocalDateTime createdAt;
-
-
     protected Item(){};
 
     private Item(String name, Company company, Long price, String roastingPoint, String origin, String memo, String thumbnailImg, String infoImg, Boolean stock) {
@@ -79,7 +79,7 @@ public class Item {
         this.stock = stock;
     }
 
-    public Item of(String name, Company company, Long price, String roastingPoint, String origin, String memo, String thumbnailImg, String infoImg, Boolean stock) {
+    public static Item of(String name, Company company, Long price, String roastingPoint, String origin, String memo, String thumbnailImg, String infoImg, Boolean stock) {
         return new Item(name, company, price, roastingPoint, origin, memo, thumbnailImg, infoImg, stock);
     }
 
