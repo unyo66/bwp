@@ -22,6 +22,8 @@ public class QArticle extends EntityPathBase<Article> {
 
     public static final QArticle article = new QArticle("article");
 
+    public final SetPath<Comment, QComment> comments = this.<Comment, QComment>createSet("comments", Comment.class, QComment.class, PathInits.DIRECT2);
+
     public final StringPath content = createString("content");
 
     public final DateTimePath<java.time.LocalDateTime> createdAt = createDateTime("createdAt", java.time.LocalDateTime.class);
@@ -34,7 +36,7 @@ public class QArticle extends EntityPathBase<Article> {
 
     public final StringPath title = createString("title");
 
-    public final NumberPath<Long> type = createNumber("type", Long.class);
+    public final NumberPath<Integer> type = createNumber("type", Integer.class);
 
     public final QUserAccount userAccount;
 

@@ -27,7 +27,7 @@ public class Company {
         this.userAccount = userAccount;
     }
 
-    public Company of(String name, UserAccount userAccount) {
+    public static Company of(String name, UserAccount userAccount) {
         return new Company(name, userAccount);
     }
 

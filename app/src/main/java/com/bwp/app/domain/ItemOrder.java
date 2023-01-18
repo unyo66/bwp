@@ -53,7 +53,7 @@ public class ItemOrder {
         this.optionGrinding = optionGrinding;
     }
 
-    public ItemOrder of(Item item, UserAccount userAccount, Long itemCount, int orderStep, int optionGrinding) {
+    public static ItemOrder of(Item item, UserAccount userAccount, Long itemCount, int orderStep, int optionGrinding) {
         return new ItemOrder(item, userAccount, itemCount, orderStep, optionGrinding);
     }
 
