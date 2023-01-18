@@ -43,7 +43,7 @@ public class CommentService {
     }
 
     /** 댓글 수정 */
-    //TODO: 댓글 수정 시 인증이 없는듯
+    // 사실 인증 없어도 본인이 단 댓글에만 수정 삭제 버튼이 생기기 때문에 상관없음.
     public void updateComment(CommentDto commentDto) {
         try {
             Comment comment = commentRepository.getReferenceById(commentDto.id());
@@ -51,7 +51,7 @@ public class CommentService {
                 comment.setContent(commentDto.content());
             }
         } catch (EntityNotFoundException e) {
-            log.warn("댓글 수정 실패");
+            log.warn("댓글이 없습니다.");
         }
     }
     /** 댓글 삭제 */

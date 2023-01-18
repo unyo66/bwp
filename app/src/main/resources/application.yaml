@@ -3,7 +3,7 @@ management.endpoints.web.exposure.include: "*" # actuator의 endpoint에 감춰�
 
 logging:
   level:
-    com.com.bitstudy.app: debug # 루트 패키지에서 발행하는 모든 로그는 debug 레벨로 보겠다는 뜻
+    com.com.bwp.app: debug # 루트 패키지에서 발행하는 모든 로그는 debug 레벨로 보겠다는 뜻
     org.springframework.web.servlet: debug # 맨 위에 debug와 관련있는 것. 맨위를 false로 놓고 request, response 로그만 따로 뽑아 보겠다는 뜻
     org.hibernate.type.descriptor.sql.BasicBinder: trace # JPA 기술을 사용할 때 쿼리 로그를 디버그 로그로 관찰할 수 있는데 이때 안에 들어가는 파라미터들이 다 물음표로 나온다. 그걸 볼 수 있게 해주는 것.(TODO : 이슈 확인 필요)
 

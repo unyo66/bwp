@@ -55,7 +55,6 @@ public class ArticleService {
     }
 
     /** 게시글 수정 */
-    //TODO: articleId가 필요한가? 어차피 id는 안 바뀌는데? CommentService 수정부분 참고
     public void updateArticle(Long articleId, ArticleDto newArticleDto) {
         try {
             Article oldArticle = articleRepository.getReferenceById(articleId);
@@ -69,7 +68,7 @@ public class ArticleService {
                 }
             }
         } catch (EntityNotFoundException e) {
-            log.warn("게시글을 찾을 수 없습니다.");
+            log.warn("게시글이 없습니다.");
         }
     }
 

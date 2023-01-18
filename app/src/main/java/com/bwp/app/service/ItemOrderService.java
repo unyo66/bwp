@@ -1,9 +1,11 @@
 package com.bwp.app.service;
 
+import com.bwp.app.domain.Company;
 import com.bwp.app.domain.Item;
 import com.bwp.app.domain.ItemOrder;
 import com.bwp.app.domain.UserAccount;
 import com.bwp.app.dto.ItemOrderDto;
+import com.bwp.app.repository.CompanyRepository;
 import com.bwp.app.repository.ItemOrderRepository;
 import com.bwp.app.repository.ItemRepository;
 import com.bwp.app.repository.UserAccountRepository;
@@ -24,6 +26,8 @@ public class ItemOrderService {
     private final ItemOrderRepository itemOrderRepository;
     private final ItemRepository itemRepository;
     private final UserAccountRepository userAccountRepository;
+
+    private final CompanyRepository companyRepository;
 
     /** 특정 유저의 모든 주문 내역 (유저용) */
     @Transactional(readOnly = true)
@@ -57,14 +61,37 @@ public class ItemOrderService {
         itemOrderRepository.save(itemOrderDto.toEntity(item, userAccount));
     }
 
-    /** orderStep 변경 (유저, 업체용) */
+    /** orderStep 변경 (유저용) */
     @Transactional(readOnly = true)
-    public void updateOrder(Long itemOrderId, ItemOrderDto newItemOrderDto) {
+    public void updateOrderForUser(Long itemOrderId, ItemOrderDto newItemOrderDto) {
         try {
             ItemOrder oldItemOrder = itemOrderRepository.getReferenceById(itemOrderId);
             UserAccount userAccount = userAccountRepository.getReferenceById(newItemOrderDto.userAccountDto().id());
             if (oldItemOrder.getUserAccount().equals(userAccount)) {
                 oldItemOrder.setOrderStep(newItemOrderDto.orderStep());
+            }
+        } catch (EntityNotFoundException e) {
+            log.warn("해당 주문을 찾을 수 없습니다.");
+        }
+    }
+
+    /** orderStep 변경 (업체용) */
+    @Transactional(readOnly = true)
+    public void updateOrderForCompany(Long itemOrderId, ItemOrderDto newItemOrderDto) {
+        try {
+            ItemOrder oldItemOrder = itemOrderRepository.getReferenceById(itemOrderId);
+            Long orderCompanyId = oldItemOrder.getItem().getCompany().getId();
+            Long companyId = companyRepository.getReferenceById(newItemOrderDto.id()).getId();
+            if (orderCompanyId.equals(companyId)) {
+                if (oldItemOrder.getOrderStep() == 3 && newItemOrderDto.orderStep() == 4) {
+                    oldItemOrder.setOrderStep(newItemOrderDto.orderStep());
+                }
+                else {
+                    log.warn("변경 권한이 없습니다. (결제 완료 -> 배송 시작만 가능)");
+                }
+            }
+            else {
+                log.warn("변경 권한이 없습니다. (권한이 없는 업체)");
             }
         } catch (EntityNotFoundException e) {
             log.warn("해당 주문을 찾을 수 없습니다.");

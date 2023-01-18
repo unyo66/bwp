@@ -22,6 +22,9 @@ public record ItemDto(
         return new ItemDto(null, name, companyDto, price, roastingPoint, origin, memo, thumbnailImg, infoImg, stock, null);
     }
 
+    public static ItemDto of(Long id, String name, CompanyDto companyDto, Long price, String roastingPoint, String origin, String memo, String thumbnailImg, String infoImg, Boolean stock) {
+        return new ItemDto(id, name, companyDto, price, roastingPoint, origin, memo, thumbnailImg, infoImg, stock, null);
+    }
     /** entity -> dto */
     public static ItemDto from(Item entity) {
         return new ItemDto(
