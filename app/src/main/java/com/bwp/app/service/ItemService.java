@@ -5,6 +5,7 @@ import com.bwp.app.dto.ArticleDto;
 import com.bwp.app.dto.ItemDto;
 import com.bwp.app.dto.ItemWithArticlesDto;
 import com.bwp.app.repository.ArticleRepository;
+import com.bwp.app.repository.ItemOrderRepository;
 import com.bwp.app.repository.ItemRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Page;
@@ -18,6 +19,7 @@ import java.util.List;
 @Transactional
 public class ItemService {
     private final ItemRepository itemRepository;
+    private final ItemOrderRepository itemOrderRepository;
     private final ArticleRepository articleRepository;
 
     /** 상품 전체 호출 */
@@ -34,4 +36,15 @@ public class ItemService {
         //Optional 객체 사용법 중 - itemId 에 맞는 item 이 없을 경우 예외 발생
         return ItemWithArticlesDto.from(itemRepository.findById(itemId).orElseThrow(NullPointerException::new), articleDtos);
     }
+
+    /** 베스트 상품 10개 */
+    public List<ItemDto> searchBestItems() {
+        return itemOrderRepository.findBestItem().stream().map(ItemDto::from).toList();
+    }
+
+    /** 신상품 10개 */
+    public List<ItemDto> searchNewItems() {
+        return itemRepository.findAllByOrderByCreatedAt().stream().map(ItemDto::from).toList();
+    }
+
 }

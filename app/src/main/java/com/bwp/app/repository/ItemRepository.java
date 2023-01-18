@@ -10,6 +10,8 @@ import org.springframework.data.querydsl.binding.QuerydslBinderCustomizer;
 import org.springframework.data.querydsl.binding.QuerydslBindings;
 import org.springframework.data.rest.core.annotation.RepositoryRestResource;
 
+import java.util.List;
+
 @RepositoryRestResource
 public interface ItemRepository extends
         JpaRepository<Item, Long>,
@@ -18,6 +20,8 @@ public interface ItemRepository extends
 
     Page<Item> findByRoastingPoint(String roastingPoint, Pageable pageable);
     Page<Item> findByOrigin(String origin, Pageable pageable);
+
+    List<Item> findAllByOrderByCreatedAt();
 
     @Override
     default void customize(QuerydslBindings bindings, QItem root) {

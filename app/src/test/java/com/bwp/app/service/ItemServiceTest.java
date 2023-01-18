@@ -9,6 +9,7 @@ import com.bwp.app.dto.ItemDto;
 import com.bwp.app.dto.ItemWithArticlesDto;
 import com.bwp.app.dto.UserAccountDto;
 import com.bwp.app.repository.ArticleRepository;
+import com.bwp.app.repository.ItemOrderRepository;
 import com.bwp.app.repository.ItemRepository;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
@@ -35,6 +36,8 @@ class ItemServiceTest {
     private ItemRepository itemRepository;
     @Mock
     private ArticleRepository articleRepository;
+    @Mock
+    private ItemOrderRepository itemOrderRepository;
 
     Pageable pageable = Pageable.ofSize(20);
     @DisplayName("상품 전체 호출")
@@ -72,7 +75,15 @@ class ItemServiceTest {
                 .hasFieldOrPropertyWithValue("stock", item.getStock());
         then(itemRepository).should().findById(itemId);
     }
-
+    @DisplayName("BEST ITEM")
+    @Test
+    void searchBestItems() {
+        // Given
+        List<Item> bestItems = itemOrderRepository.findBestItem();
+        // When
+        // Then
+        assertThat(bestItems).isEmpty();
+    }
     ///////
 
     private UserAccount createUserAccount() {
@@ -104,6 +115,7 @@ class ItemServiceTest {
                 TRUE
         );
     }
+
 
 
 }

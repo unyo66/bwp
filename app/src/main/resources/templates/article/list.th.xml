@@ -1,0 +1,127 @@
+<?xml version="1.0"?>
+<thlogic>
+    <attr sel="#header" th:replace="header :: #header" />
+    <attr sel="#footer" th:replace="footer :: #footer" />
+
+    <!-- 검색 결과 개수 표시 -->
+    <attr sel=".records">
+        <attr sel="b[0]" th:text="${articles.number * 10 + 1} + '-' + ${articles.number * 10 + 10} " />
+        <attr sel="b[1]" th:text="${totalCount}" />
+    </attr>
+
+    <!-- 검색창 - 검색 타입 부분  -->
+    <!--  th:each : 모델의 searchTypes 잡아서 forEach 돌리기
+              th:value : enum 파일의 name (원래꺼) 가져와서 value 에 박기
+              th:text : description(한글) 부분 가져와서 text 에 박기
+              th:selected : 파라미터의 서치타입이 널이 아니면 (널이면 제목으로 돌아가기) 파라미터대로 선택돼있게 하기 -->
+    <attr sel="#search-type">
+        <attr sel="option[0]"
+              th:each="searchTypes : ${searchTypes}"
+              th:value="${searchTypes.name}"
+              th:text="${searchTypes.description}"
+        />
+<!--              th:selected="${param.searchType != null && (param.searchType.toString == searchType.name)}"-->
+    </attr>
+    <attr sel="#search-keyword" th:value="${param.searchKeyword}" />
+
+    <attr sel="#article-table">
+        <attr sel="thead">
+            <attr sel="th.article-head-hashtag/a"
+            th:text="'해시태그'
+                + (${articles.sort.getOrderFor('hashtag')} != null ?
+                (${articles.sort.getOrderFor('hashtag').direction.name} != 'DESC' ? '↓' : '↑') : '')"
+            th:href="@{/templates/article(page=${articles.number}, sort='hashtag'
+                + (${articles.sort.getOrderFor('hashtag')} != null ?
+                (${articles.sort.getOrderFor('hashtag').direction.name} != 'DESC' ? ',desc' : '') : ''),
+                searchType=${param.searchType},
+                searchKeyword=${param.searchKeyword})}"
+            th:class="(${articles.sort.getOrderFor('hashtag')} != null ? 'checked-sort' : '')"
+            />
+        </attr>
+        <attr sel="thead">
+            <attr sel="th.article-head-title/a"
+                  th:text="'제목'
+                + (${articles.sort.getOrderFor('title')} != null ?
+                (${articles.sort.getOrderFor('title').direction.name} != 'DESC' ? '↓' : '↑') : '')"
+                  th:href="@{/templates/article(page=${articles.number}, sort='title'
+                + (${articles.sort.getOrderFor('title')} != null ?
+                (${articles.sort.getOrderFor('title').direction.name} != 'DESC' ? ',desc' : '') : ''),
+                searchType=${param.searchType},
+                searchKeyword=${param.searchKeyword})}"
+                  th:class="(${articles.sort.getOrderFor('title')} != null ? 'checked-sort' : '')"
+            />
+        </attr>
+        <attr sel="thead">
+            <attr sel="th.article-head-nickname/a"
+                  th:text="'작성자'
+                + (${articles.sort.getOrderFor('userAccount.nickname')} != null ?
+                (${articles.sort.getOrderFor('userAccount.nickname').direction.name} != 'DESC' ? '↓' : '↑') : '')"
+                  th:href="@{/templates/article(page=${articles.number}, sort='userAccount.nickname'
+                + (${articles.sort.getOrderFor('userAccount.nickname')} != null ?
+                (${articles.sort.getOrderFor('userAccount.nickname').direction.name} != 'DESC' ? ',desc' : '') : ''),
+                searchType=${param.searchType},
+                searchKeyword=${param.searchKeyword})}"
+                  th:class="(${articles.sort.getOrderFor('userAccount.nickname')} != null ? 'checked-sort' : '')"
+            />
+        </attr>
+        <attr sel="thead">
+            <attr sel="th.article-head-createdAt/a"
+                  th:text="'작성일'
+                + (${articles.sort.getOrderFor('createdAt')} != null ?
+                (${articles.sort.getOrderFor('createdAt').direction.name} != 'DESC' ? '↓' : '↑') : '')"
+                  th:href="@{/templates/article(page=${articles.number}, sort='createdAt'
+                + (${articles.sort.getOrderFor('createdAt')} != null ?
+                (${articles.sort.getOrderFor('createdAt').direction.name} != 'DESC' ? ',desc' : '') : ''),
+                searchType=${param.searchType},
+                searchKeyword=${param.searchKeyword})}"
+                  th:class="(${articles.sort.getOrderFor('createdAt')} != null ? 'checked-sort' : '')"
+            />
+        </attr>
+
+
+
+        <attr sel="tbody" th:remove="all-but-first">
+            <attr sel="tr[0]" th:each="article : ${articles}">
+<!--                    <attr sel="td.article-hashtag" th:if="${article.hashtag != null}" th:text="${article.hashtag}"/>-->
+<!--                    <attr sel="td.article-hashtag" th:unless="${article.hashtag != null}" th:text="no hashtag"/>-->
+                    <attr sel="td.article-hashtag" th:text="${article.hashtag}"/>
+                    <attr sel="td.article-title/a" th:text="${article.title}" th:href="@{'/articles/' + ${article.id}}"/>
+                    <attr sel="td.article-nickname" th:text="${article.nickname}"/>
+                    <attr sel="td.article-createdAt" th:datetime="${article.createdAt}" th:text="${#temporals.format(article.createdAt, 'yyyy-MM-dd')}"/>
+            </attr>
+        </attr>
+    </attr>
+
+    <!-- 페이지네이션 -->
+    <attr sel="#pagination">
+        <attr sel="li[0]/a"
+              th:text="이전"
+              th:href="@{/templates/article(page=${articles.number - 1},
+                sort=${param.sort},
+                searchType=${param.searchType},
+                searchKeyword=${param.searchKeyword})}"
+              th:class="'page-link' + (${articles.number <= 0 ? ' disabled' : ''})"
+        />
+        <attr sel="li[1]" th:class="'page-item' + (${pageNumber} == ${articles.number} ? ' active' : '')" th:each="pageNumber : ${paginationBarNumbers}">
+            <attr sel="a"
+                  th:text="${pageNumber + 1}"
+                  th:href="@{/templates/article(page=${pageNumber},
+                sort=${param.sort},
+                searchType=${param.searchType},
+                searchKeyword=${param.searchKeyword})}"
+                  th:class="page-link" />
+        </attr>
+        <attr sel="li[2]/a"
+              th:text="다음"
+              th:href="@{/templates/article(page=${articles.number + 1},
+                sort=${param.sort},
+                searchType=${param.searchType},
+                searchKeyword=${param.searchKeyword})}"
+              th:class="'page-link' + (${articles.number} >= ${articles.totalPages - 1} ? ' disabled' : '')"
+        />
+    </attr>
+
+    <!-- 글쓰기 버튼 로그인 여부에 따라  -->
+    <attr sel="#new-article" sec:authorize="isAuthenticated()" th:href="@{/templates/article/form}"></attr>
+
+</thlogic>
