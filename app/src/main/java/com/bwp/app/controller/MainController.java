@@ -22,6 +22,7 @@ public class MainController {
         List<ItemDto> bestItems = itemService.searchBestItems();
         map.addAttribute("bestItems", bestItems);
         map.addAttribute("newItems", newItems);
+        System.out.println("bestItems : " + bestItems);
         return "index";
     }
 }

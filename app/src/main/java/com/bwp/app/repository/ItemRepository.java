@@ -20,6 +20,7 @@ public interface ItemRepository extends
 
     Page<Item> findByRoastingPoint(String roastingPoint, Pageable pageable);
     Page<Item> findByOrigin(String origin, Pageable pageable);
+    Page<Item> findByRoastingPointAndOrigin(String roastingPoint, String origin, Pageable pageable);
 
     List<Item> findAllByOrderByCreatedAt();
 

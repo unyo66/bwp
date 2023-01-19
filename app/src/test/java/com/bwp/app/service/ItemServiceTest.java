@@ -4,6 +4,7 @@ import com.bwp.app.domain.Article;
 import com.bwp.app.domain.Company;
 import com.bwp.app.domain.Item;
 import com.bwp.app.domain.UserAccount;
+import com.bwp.app.domain.type.SearchType;
 import com.bwp.app.dto.ArticleDto;
 import com.bwp.app.dto.ItemDto;
 import com.bwp.app.dto.ItemWithArticlesDto;
@@ -44,12 +45,14 @@ class ItemServiceTest {
     @Test
     void searchItems() {
         // Given
-        given(itemRepository.findAll(pageable)).willReturn(Page.empty());
+        String roastingPoint = "라이트 로스팅";
+        String origin = "";
+        given(itemRepository.findByRoastingPoint(roastingPoint, pageable)).willReturn(Page.empty());
         // When
-        Page<ItemDto> itemDtos = sut.searchItems(pageable);
+        Page<ItemDto> itemDtos = sut.searchItems(roastingPoint, origin, pageable);
         // Then
         assertThat(itemDtos).isEmpty();
-        then(itemRepository).should().findAll(pageable);
+        then(itemRepository).should().findByRoastingPoint(roastingPoint, pageable);
     }
 
     @DisplayName("상품 하나 호출")

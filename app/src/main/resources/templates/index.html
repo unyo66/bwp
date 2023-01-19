@@ -13,17 +13,126 @@
           integrity="sha384-GLhlTQ8iRABdZLl6O3oVMWSktQOp6b7In1Zl3/Jr59b6EGGoI1aFkw7cmDA6j6gD" crossorigin="anonymous">
     <link rel="stylesheet" href="/css/h_f.css">
     <link rel="stylesheet" href="/css/index.css">
+    <link rel="stylesheet" href="/css/swiper.css">
 </head>
 
 <body>
 <header id="header"></header>
-
+<div class="swiper mySwiper1">
+    <div class="swiper-wrapper">
+        <div class="swiper-slide">
+            <img src="/img/main/banner-1.jpg" class="d-block w-100" alt="...">
+        </div>
+        <div class="swiper-slide">
+            <img src="/img/main/banner-2.jpg" class="d-block w-100" alt="...">
+        </div>
+        <div class="swiper-slide">
+            <img src="/img/main/banner-3.jpg" class="d-block w-100" alt="...">
+        </div>
+        <div class="swiper-slide">
+            <img src="/img/main/banner-4.jpg" class="d-block w-100" alt="...">
+        </div>
+    </div>
+</div>
 <main class="container">
+    <div class="item-box">
+        <div class="item-title">베스트 상품</div>
+        <div class="swiper mySwiper2 best-items">
+            <div class="swiper-wrapper">
+                <div class="swiper-slide">
+                    <a href="#" class="item">
+                        <div class="item-img-box">
+                            <img src="" class="item-img">
+                            <div class="item-detail">
+                                <div class="item-roasting-point"></div>
+                                <br>
+                                <div class="item-origin"></div>
+                                <br>
+                                <div class="item-memo"></div>
+                            </div>
+                        </div>
+                        <div class="item-info">
+                            <div class="item-name-box">
+                                <span class="item-company"></span>
+                                <span class="item-name"></span>
+                            </div>
+                            <span class="item-price-box">
+                            <span class="item-price"></span>
+                            <span class="per-100gram>">/ 100g</span>
+                        </span>
+                        </div>
+                    </a>
+                </div>
+            </div>
+        </div>
+        <div class="swiper-button-next next-button2"></div>
+        <div class="swiper-button-prev prev-button2"></div>
+    </div>
+    <div class="item-box">
+        <div class="item-title">새로운 상품</div>
+        <div class="swiper mySwiper3 new-items">
+            <div class="swiper-wrapper">
+                <div class="swiper-slide">
+                    <a href="#" class="item">
+                        <div class="item-img-box">
+                            <img src="" class="item-img">
+                            <div class="item-detail">
+                                <div class="item-roasting-point"></div>
+                                <br>
+                                <div class="item-origin"></div>
+                                <br>
+                                <div class="item-memo"></div>
+                            </div>
+                        </div>
+                        <div class="item-info">
+                            <div class="item-name-box">
+                                <span class="item-company"></span>
+                                <span class="item-name"></span>
+                            </div>
+                            <span class="item-price-box">
+                            <span class="item-price"></span>
+                            <span class="per-100gram>">/ 100g</span>
+                        </span>
+                        </div>
+                    </a>
+                </div>
+            </div>
+        </div>
+        <div class="swiper-button-next next-button3"></div>
+        <div class="swiper-button-prev prev-button3"></div>
+    </div>
 </main>
 
 <footer id="footer"></footer>
+<!--swiper-->
+<script src="https://cdn.jsdelivr.net/npm/swiper/swiper-bundle.min.js"></script>
+<script>
+    var swiper1 = new Swiper(".mySwiper1", {
+        spaceBetween: 30,
+        centeredSlides: true,
+        autoplay: {
+            delay: 2500,
+            disableOnInteraction: false,
+        }
+    });
 
-
+    var swiper2 = new Swiper(".mySwiper2", {
+        slidesPerView: 4,
+        spaceBetween: 10,
+        navigation: {
+            nextEl: ".next-button2",
+            prevEl: ".prev-button2",
+        },
+    });
+    var swiper3 = new Swiper(".mySwiper3", {
+        slidesPerView: 4,
+        spaceBetween: 10,
+        navigation: {
+            nextEl: ".next-button3",
+            prevEl: ".prev-button3",
+        },
+    });
+</script>
 <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/js/bootstrap.bundle.min.js"
         integrity="sha384-w76AqPfDkMBDXo30jS1Sgez6pr3x5MlQ1ZAGC+nuZB+EYdgRZgiwxhTBTkF7CXvN"
         crossorigin="anonymous"></script>

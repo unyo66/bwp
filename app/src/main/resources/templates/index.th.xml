@@ -3,4 +3,57 @@
     <attr sel="#header" th:replace="header :: #header" />
     <attr sel="#footer" th:replace="footer :: #footer" />
 
+    <!-- 아이템 슬라이드에 정보 넣기  -->
+
+    <attr sel=".best-items">
+        <attr sel=".swiper-wrapper" th:remove="all-but-first">
+            <attr sel=".swiper-slide[0]" th:each="bestItem : ${bestItems}">
+                <attr sel="a" th:href="@{'/items/' + ${bestItem.id}}">
+                    <attr sel=".item-img-box">
+                        <attr sel=".item-img" th:src="'https://' + ${bestItem.thumbnailImg}" />
+                        <attr sel=".item-detail">
+                            <attr sel=".item-roasting-point" th:text="${bestItem.roastingPoint}" />
+                            <attr sel=".item-origin" th:text="${bestItem.origin}" />
+                            <attr sel=".item-memo" th:text="${bestItem.memo}"/>
+                        </attr>
+                    </attr>
+                    <attr sel=".item-info">
+                        <attr sel=".item-name-box">
+                            <attr sel=".item-company" th:text="${bestItem.companyDto.name}" />
+                            <attr sel=".item-name" th:text="${bestItem.name}" />
+                        </attr>
+                        <attr sel=".item-price-box">
+                            <attr sel=".item-price" th:text="|${#numbers.formatInteger(bestItem.price, 0, 'COMMA')}원|" />
+                        </attr>
+                    </attr>
+                </attr>
+            </attr>
+        </attr>
+    </attr>
+    <attr sel=".new-items">
+        <attr sel=".swiper-wrapper" th:remove="all-but-first">
+            <attr sel=".swiper-slide[0]" th:each="newItem : ${newItems}">
+                <attr sel="a" th:href="@{'/items/' + ${newItem.id}}">
+                    <attr sel=".item-img-box">
+                        <attr sel=".item-img" th:src="'https://' + ${newItem.thumbnailImg}" />
+                        <attr sel=".item-detail">
+                            <attr sel=".item-roasting-point" th:text="${newItem.roastingPoint}" />
+                            <attr sel=".item-origin" th:text="${newItem.origin}" />
+                            <attr sel=".item-memo" th:text="${newItem.memo}"/>
+                        </attr>
+                    </attr>
+                    <attr sel=".item-info">
+                        <attr sel=".item-name-box">
+                            <attr sel=".item-company" th:text="${newItem.companyDto.name}" />
+                            <attr sel=".item-name" th:text="${newItem.name}" />
+                        </attr>
+                        <attr sel=".item-price-box">
+                            <attr sel=".item-price" th:text="|${#numbers.formatInteger(newItem.price, 0, 'COMMA')}원|" />
+                        </attr>
+                    </attr>
+                </attr>
+            </attr>
+        </attr>
+    </attr>
+
 </thlogic>
