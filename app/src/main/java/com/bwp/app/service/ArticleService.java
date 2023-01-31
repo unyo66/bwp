@@ -5,9 +5,13 @@ import com.bwp.app.domain.Item;
 import com.bwp.app.domain.UserAccount;
 import com.bwp.app.dto.ArticleDto;
 import com.bwp.app.dto.ArticleWithCommentsDto;
+import com.bwp.app.dto.CommentDto;
+import com.bwp.app.dto.UserAccountDto;
 import com.bwp.app.repository.ArticleRepository;
+import com.bwp.app.repository.CommentRepository;
 import com.bwp.app.repository.ItemRepository;
 import com.bwp.app.repository.UserAccountRepository;
+import com.bwp.app.serucity.BoardPrincipal;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.data.domain.Page;
@@ -16,6 +20,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import javax.persistence.EntityNotFoundException;
+import java.util.List;
 
 @Service
 @RequiredArgsConstructor
@@ -24,11 +29,18 @@ import javax.persistence.EntityNotFoundException;
 public class ArticleService {
     private final ArticleRepository articleRepository;
     private final UserAccountRepository userAccountRepository;
-    private final ItemRepository itemRepository;
+
+    private final CommentRepository commentRepository;
 
     /** 모든 게시글 조회 (사용x) */
 
-    /** 게시판 타입에 따라 게시글리스트 조회 (게시판 메인, 각 게시판 리스트) */
+    /** 게시판 타입에 따라 게시글리스트 조회 5개씩 (게시판 메인) */
+    @Transactional(readOnly = true)
+    public Page<ArticleDto> fiveArticlesByType(int type, Pageable pageable) {
+        return articleRepository.findTop5ByType(type, pageable).map(ArticleDto::from);
+    }
+
+    /** 게시판 타입에 따라 게시글리스트 모두 조회 (타입별 게시판 모두보기) */
     @Transactional(readOnly = true)
     public Page<ArticleDto> articlesByType(int type, Pageable pageable) {
         return articleRepository.findByType(type, pageable).map(ArticleDto::from);
@@ -47,7 +59,12 @@ public class ArticleService {
                 .map(ArticleWithCommentsDto::from)
                 .orElseThrow(() -> new EntityNotFoundException("게시글이 없습니다."));
     }
-
+    /** 댓글만 따로 호출 : 무한대댓글 위해서 cOrder 순서대로 뽑아와야함 */
+    @Transactional(readOnly = true)
+    public List<CommentDto> commentsForArticle(Long articleId) {
+        return commentRepository.findByArticle_IdOrderByCommentOrder(articleId)
+                .stream().map(CommentDto::from).toList();
+    }
     /** 게시글 생성 */
     public void saveArticle(ArticleDto articleDto) {
         UserAccount userAccount = userAccountRepository.getReferenceById(articleDto.userAccountDto().id());

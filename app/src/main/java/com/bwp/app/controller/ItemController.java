@@ -3,7 +3,13 @@ package com.bwp.app.controller;
 import com.bwp.app.domain.Item;
 import com.bwp.app.domain.type.SearchType;
 import com.bwp.app.dto.ItemDto;
+import com.bwp.app.dto.ItemOrderDto;
+import com.bwp.app.dto.ItemOrderRequest;
 import com.bwp.app.dto.ItemWithArticlesDto;
+import com.bwp.app.repository.ItemOrderRepository;
+import com.bwp.app.repository.ItemRepository;
+import com.bwp.app.serucity.BoardPrincipal;
+import com.bwp.app.service.ItemOrderService;
 import com.bwp.app.service.ItemService;
 import com.bwp.app.service.PaginationService;
 import lombok.RequiredArgsConstructor;
@@ -11,14 +17,11 @@ import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Sort;
 import org.springframework.data.web.PageableDefault;
+import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.ModelMap;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.*;
 
-import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 
@@ -28,6 +31,8 @@ import java.util.Map;
 public class ItemController {
     private final ItemService itemService;
     private final PaginationService paginationService;
+    private final ItemOrderRepository itemOrderRepository;
+
     @GetMapping
     public String items(
             @RequestParam(required = false) String roastingPoint,
@@ -50,7 +55,7 @@ public class ItemController {
     @GetMapping("/{itemId}")
     public String item(@PathVariable Long itemId, ModelMap map) {
         ItemWithArticlesDto itemWithArticlesDto = itemService.getItem(itemId);
-        map.addAttribute("item_detail", itemWithArticlesDto);
+        map.addAttribute("itemDetail", itemWithArticlesDto);
         return "item/detail";
     }
 }

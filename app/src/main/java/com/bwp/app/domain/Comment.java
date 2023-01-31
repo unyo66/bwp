@@ -5,10 +5,9 @@ import com.bwp.app.domain.UserAccount;
 import lombok.Getter;
 import lombok.Setter;
 import lombok.ToString;
-import org.springframework.data.annotation.CreatedBy;
 import org.springframework.data.annotation.CreatedDate;
-import org.springframework.data.annotation.LastModifiedBy;
 import org.springframework.data.annotation.LastModifiedDate;
+import org.springframework.data.jpa.domain.support.AuditingEntityListener;
 
 import javax.persistence.*;
 import java.time.LocalDateTime;
@@ -21,7 +20,7 @@ import java.util.Objects;
 @Entity
 @Getter
 @ToString(callSuper = true)
-public class Comment {
+public class Comment extends AuditingFields {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
@@ -42,30 +41,38 @@ public class Comment {
     private Long parentId;
 
     @Setter
+    @Column
+    private int commentOrder;
+
+    @Setter
+    @Column
+    private int cDepth;
+
+    @Setter
     @Column(nullable = false)
     private String content;
 
 
-    @CreatedDate
-    @Column(nullable = false)
-    private LocalDateTime createdAt;
-    @LastModifiedDate
-    @Column
-    private LocalDateTime modifiedAt;
+//    @CreatedDate
+//    @Column(nullable = false)
+//    private LocalDateTime createdAt;
+//    @LastModifiedDate
+//    @Column
+//    private LocalDateTime modifiedAt;
 
     protected Comment() {}
 
-    private Comment(UserAccount userAccount, Article article, Long parentId, String content) {
+    private Comment(UserAccount userAccount, Article article, Long parentId, int commentOrder, int cDepth, String content) {
         this.userAccount = userAccount;
         this.article = article;
         this.parentId = parentId;
         this.content = content;
+        this.commentOrder = commentOrder;
+        this.cDepth = cDepth;
     }
 
-    public static Comment of(UserAccount userAccount, Article article, Long parentId, String content) {
-        return new Comment(userAccount, article, parentId, content);
-
-
+    public static Comment of(UserAccount userAccount, Article article, Long parentId, int commentOrder, int cDepth, String content) {
+        return new Comment(userAccount, article, parentId, commentOrder, cDepth, content);
     }
 
     @Override

@@ -19,9 +19,10 @@ import java.util.Set;
         @Index(columnList = "price"),
         @Index(columnList = "roastingPoint"),
         @Index(columnList = "origin"),
-        @Index(columnList = "memo")
+        @Index(columnList = "memo"),
+        @Index(columnList = "createdAt")
 })
-public class Item {
+public class Item extends AuditingFields {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
@@ -62,9 +63,9 @@ public class Item {
     @Column(nullable = false)
     private Boolean stock;
 
-    @CreatedDate
-    @Column(nullable = false)
-    private LocalDateTime createdAt;
+//    @CreatedDate
+//    @Column(nullable = false)
+//    private LocalDateTime createdAt;
     protected Item(){};
 
     private Item(String name, Company company, Long price, String roastingPoint, String origin, String memo, String thumbnailImg, String infoImg, Boolean stock) {

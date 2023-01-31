@@ -1,0 +1,26 @@
+<?xml version="1.0"?>
+<thlogic>
+    <attr sel="#header" th:replace="header :: #header" />
+    <attr sel="#footer" th:replace="footer :: #footer" />
+
+    <attr sel=".item-img" th:src="'https://' + ${itemDetail.thumbnailImg}"/>
+    <attr sel=".item-order-box">
+        <attr sel=".item-company" th:text="'[' + ${itemDetail.companyDto.name} + ']'" />
+        <attr sel=".item-name" th:text="${itemDetail.name}" />
+        <attr sel=".item-price-box">
+            <attr sel=".item-price" th:text="${itemDetail.price}" />
+        </attr>
+    </attr>
+    <attr sel=".review-table">
+        <attr sel="tbody" th:remove="all-but-first">
+            <attr sel="tr[0]" th:each="review : ${itemDetail.articleDtos}">
+                <attr sel=".review-id" th:text="${review.id}" />
+                <attr sel=".review-title">
+                    <attr sel=".review-title-a" th:text="${review.title}" th:href="@{'/articles/detail/' + ${review.id}}" />
+                </attr>
+                <attr sel=".review-nickname" th:text="${review.userAccountDto.nickname}" />
+                <attr sel=".review-created-at" th:datetime="${review.createdAt}" th:text="${#temporals.format(review.createdAt, 'yyyy-MM-dd HH:mm')}" />
+            </attr>
+        </attr>
+    </attr>
+</thlogic>

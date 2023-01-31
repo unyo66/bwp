@@ -10,6 +10,7 @@ import java.util.Set;
 
 public interface ArticleRepository extends JpaRepository<Article, Long> {
     List<Article> findByItemId(Long itemId);
+    Page<Article> findTop5ByType(int type, Pageable pageable);
     Page<Article> findByType(int type, Pageable pageable);
     Page<Article> findByUserAccount_Id(Long userId, Pageable pageable);
     void deleteByIdAndUserAccount_Id(Long articleId, Long userId);

@@ -2,27 +2,26 @@
 <thlogic>
     <attr sel="#header" th:replace="header :: #header" />
     <attr sel="#footer" th:replace="footer :: #footer" />
-    <attr sel="#title" th:text="${article.title}" />
-    <attr sel="#bonmoon" th:text="${article.content}" />
-    <attr sel="#nickname" th:text="${article.nickname}" />
-    <attr sel="#email" th:text="${article.email}" />
-    <attr sel="#createdAt" th:datetime="${article.createdAt}" th:text="${#temporals.format(article.createdAt, 'yyyy-MM-dd')}"/>
-    <attr sel="#hashtag" th:text="${article.hashtag}" />
 
-    <attr sel="#comment-form" th:action="@{/comments/new}" th:method="post">
-        <attr sel="#comment-text" th:name="content" />
+    <!-- breadcrumb -->
+
+    <!-- 본문  -->
+    <attr sel=".article">
+        <attr sel=".article-title" th:text="${article.title}" />
+        <attr sel=".article-nickname" th:text="${article.userAccountDto.nickname}" />
+        <attr sel=".article-created-at" th:datetime="${article.createdAt}" th:text="${#temporals.format(article.createdAt, 'yyyy-MM-dd HH:mm')}" />
+        <attr sel=".article-content" th:text="${article.content}" />
     </attr>
-
-    <attr sel="#comment-table">
-        <attr sel="tbody" th:remove="all-but-first">
-            <attr sel="tr[0]" th:each="comment : ${comments}">
-                <attr sel="td">
-                    <attr sel=".comment-nickname" th:text="${comment.nickname}"/>
-                    <attr sel=".comment-createAt" th:datetime="${comment.createdAt}" th:text="${#temporals.format(comment.createdAt, 'yyyy-MM-dd')}"/>
-                </attr>
-                <attr sel="td.comment-content" th:text="${comment.content}"/>
-
+    <attr sel=".comment-ul">
+        <attr sel="li[0]" th:each="comment : ${comments}" th:class="'d-' + ${comment.cDepth} + ' comment-area'">
+            <attr sel=".child-comment" th:text="${comment.parentId != null} ? 'L' : ''" />
+            <attr sel=".comment-info">
+                <attr sel=".comment-nickname" th:text="${comment.userAccountDto.nickname}" />
+                <attr sel=".comment-create-at" th:datetime="${comment.createdAt}" th:text="${#temporals.format(comment.createdAt, 'yyyy-MM-dd HH:mm')}" />
+<!--                <attr sel=".comment-delete" sec:authorize="isAuthenticated()" th:class="${name == ${comment.userAccountDto.email}} ? 'x' : ''" /> TODO:삭제버튼 인증 -->
+                <attr sel=".comment-delete" sec:authorize="isAuthenticated()" sec:authentication="name"/> TODO:삭제버튼 인증
             </attr>
+            <attr sel=".comment-content" th:text="${comment.content}" />
         </attr>
     </attr>
 </thlogic>

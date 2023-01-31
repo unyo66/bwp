@@ -2,11 +2,186 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <title>Title</title>
+    <title>커피 편집샵 블랙워터포트, BWP</title>
+    <script src="/js/jquery-1.12.4.js"></script>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-GLhlTQ8iRABdZLl6O3oVMWSktQOp6b7In1Zl3/Jr59b6EGGoI1aFkw7cmDA6j6gD" crossorigin="anonymous">
+    <link rel="stylesheet" href="/css/item/detail.css">
+    <link rel="stylesheet" href="/css/h_f.css">
+    <link rel="stylesheet" href="/css/common.css">
 </head>
 <body>
-<div th:text="${item_detail.name()}" ></div>
-<div th:text="${item_detail.memo()}" ></div>
-<div th:text="${item_detail.articleDtos()[0].title()}" ></div>
+<header id="header"></header>
+<nav style="--bs-breadcrumb-divider: '>';" aria-label="breadcrumb">
+    <ol class="breadcrumb">
+        <li class="breadcrumb-item"><a href="#">홈</a></li>
+        <li class="breadcrumb-item" aria-current="page">원두구매</li>
+        <li class="breadcrumb-item active" aria-current="page">상품정보</li>
+    </ol>
+</nav>
+<div class="container item-box">
+    <div class="item-img-box">
+        <img src="" class="item-img">
+    </div>
+    <form class="item-order-box" action="/itemOrders/order" onsubmit="return formCheck()" method="post">
+        <input class="item-id" name="itemId" th:value="${itemDetail.id()}" hidden>
+        <input class="item-orderStep" name="orderStep" th:value="1" hidden>
+        <span class="item-company">[벙커컴퍼니]</span>
+        <span class="item-name">버터리 블렌드</span>
+        <div class="item-price-box">
+            <span class="item-price">7500</span>
+            /100g
+        </div>
+        <div class="select-box">
+            <select class="form-select grinding-select" aria-label="Default select example" onchange="changeGrinding(this)" name="optionGrinding">
+                <option selected>분쇄도를 선택해주세요</option>
+                <option value="1">홀빈</option>
+                <option value="2">에스프레소용</option>
+                <option value="3">드립용</option>
+            </select>
+        </div>
+        <div class="select-box">
+            <select class="form-select weight-select" aria-label="Default select example" onchange="changeWeight(this)" name="optionWeight">
+                <option selected>중량을 선택해주세요</option>
+                <option value="2">200g</option>
+                <option value="5">500g</option>
+                <option value="10">1kg</option>
+            </select>
+        </div>
+        <div>
+            <button type="button" class="minus" onclick="minus()">-</button>
+            <input type="text" class="count-text" value="1" name="itemCount">
+            <button type="button" class="plus" onclick="plus()">+</button>
+        </div>
+        <div class="item-order-result">
+            <span class="item-order-grinding"></span>
+            <span class="item-order-weight"></span>
+            <span class="item-order-count"></span>
+            <div class="item-order-total-price"></div>
+        </div>
+        <div class="button-box">
+            <button type="button" class="to-basket" onclick="to_basket()">장바구니</button>
+            <button type="submit" class="to-pay">결제하기</button>
+        </div>
+    </form>
+</div>
+<div class="container review-box">
+    <div class="review">REVIEW</div>
+    <table class="review-table">
+        <thead>
+            <tr>
+                <td class="review-id">번호</td>
+                <td class="review-title">제목</td>
+                <td class="review-nickname">작성자</td>
+                <td class="review-created-at">작성일</td>
+            </tr>
+        </thead>
+        <tbody>
+            <tr>
+                <td class="review-id">0</td>
+                <td class="review-title"><a class="review-title-a" href="#">너무맛있어요</a></td>
+                <td class="review-nickname">이고훈</td>
+                <td class="review-created-at">2023-01-20</td>
+            </tr>
+        </tbody>
+    </table>
+</div>
+<footer id="footer"></footer>
+<script>
+    let txt = document.getElementsByClassName("count-text")[0];
+    let oPrice = document.getElementsByClassName("item-price")[0].innerHTML;
+    let fCount = document.getElementsByClassName("item-order-count")[0];
+    let fPrice = document.getElementsByClassName("item-order-total-price")[0];
+    let fGrinding = document.getElementsByClassName("item-order-grinding")[0];
+    let fWeight = document.getElementsByClassName("item-order-weight")[0];
+    let grindingText = ["홀빈", "에스프레소용", "드립용"];
+    document.getElementsByClassName("item-price")[0].innerHTML = oPrice + '원';
+    // fPrice.innerHTML = 1;
+    function minus()
+    {
+        if (txt.value > 1)
+        {
+            txt.value--;
+        }
+        result();
+    }
+    function plus()
+    {
+        txt.value++;
+        result();
+    }
+
+    function result() {
+        fCount.innerText = txt.value + '개';
+        console.log(fGrinding.innerText == '');
+        console.log(fWeight.innerText == '');
+        if (fGrinding.innerText == '' || fWeight.innerText == '') {
+        }
+        else {
+            fPrice.innerHTML = (document.getElementsByClassName("weight-select")[0].value * oPrice * Number(txt.value)).toLocaleString("ko-KR") + '원';
+        }
+    }
+    function changeGrinding(s) {
+        console.log(isNaN(s.value))
+        if (isNaN(s.value)){
+            fGrinding.innerText = '';
+        }
+        else {
+            fGrinding.innerText = grindingText[s.value - 1];
+        }
+        result();
+    }
+    function changeWeight(s) {
+        if (isNaN(s.value)){
+            fWeight.innerText = '';
+        }
+        else {
+            fWeight.innerText = s.value < 10 ? s.value * 100 + 'g' : Math.round(s.value / 10) + 'kg';
+        }
+        result();
+    }
+    function formCheck() {
+        if (fGrinding.innerText == '') {
+            alert("분쇄도를 선택해주세요");
+            return false;
+        }
+        else if (fWeight.innerText == '') {
+            alert("중량을 선택해주세요");
+            return false;
+        }
+        else {
+            return true;
+        }
+        alert()
+    };
+    function getOpt() {
+        let itemId = document.getElementsByClassName("item-id")[0].value;
+        let orderStep = document.getElementsByClassName("item-orderStep")[0].value;
+        let optionGrinding = document.getElementsByClassName("grinding-select")[0].value;
+        let optionWeight = document.getElementsByClassName("weight-select")[0].value;
+        let itemCount = document.getElementsByClassName("count-text")[0].value;
+        return {itemId:itemId, orderStep:orderStep, optionGrinding:optionGrinding, optionWeight:optionWeight, itemCount:itemCount};
+    }
+    function to_basket() {
+        console.log("보낼 데이터 : " + getOpt());
+        if (formCheck()) {
+            $.ajax({
+                type: 'POST',       // 요청 메서드
+                url: '/itemOrders/basket',  // 요청 URI
+                headers: {"content-type": "application/json"}, // 요청 헤더
+                data: JSON.stringify(getOpt()),  // post 방식으로 url에 명시된 주소(/board/send)로 전송.
+                success: function (result) {
+                    ///////////전송받은 데이터 처리 영역////////////
+                    console.log('good');
+                    if (result == "done") {
+                        alert("장바구니에 담았습니다.");
+                    }
+                },
+                error: function () {
+                    alert("error")
+                }
+            }); // $.ajax()}
+        }
+    }
+</script>
 </body>
 </html>

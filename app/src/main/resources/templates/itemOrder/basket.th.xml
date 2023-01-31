@@ -1,0 +1,20 @@
+<?xml version="1.0"?>
+<thlogic>
+    <attr sel="#header" th:replace="header :: #header" />
+    <attr sel="#footer" th:replace="footer :: #footer" />
+
+    <attr sel=".item-order-box" th:each="itemOrders : ${itemOrders}">
+        <attr sel=".company-name" th:text="'제품명 : [' + ${itemOrders.itemDto.companyDto.name} + ']'"/>
+        <attr sel=".item-name" th:text="${itemOrders.itemDto.name}"/>
+        <attr sel=".option-grinding" th:text="(
+        ${itemOrders.optionGrinding} == 1 ? '홀빈' : (
+        ${itemOrders.optionGrinding} == 2 ? '에스프레소용' : (
+        ${itemOrders.optionGrinding} == 3 ? '드립용' : '')))"/>
+        <attr sel=".option-weight" th:text="(
+        ${itemOrders.optionWeight} < 9 ?
+        (${itemOrders.optionWeight} * 100 + 'g') :
+         (${itemOrders.optionWeight} / 10 + 'kg'))"/>
+        <attr sel=".total-price" th:text="|가격 : ${#numbers.formatInteger((itemOrders.itemDto.price * itemOrders.optionWeight), 0, 'COMMA')}원|" />
+        <attr sel=".order-date" th:datetime="${itemOrders.createdAt}" th:text="'일자 : ' + ${#temporals.format(itemOrders.createdAt, 'yyyy-MM-dd HH:mm')}" />
+    </attr>
+</thlogic>

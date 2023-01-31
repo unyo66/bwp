@@ -7,13 +7,6 @@
     border: 1px solid;
     box-shadow: 1px 1px #333;
 }
-.breadcrumb {
-    margin: 1rem;
-}
-a {
-    text-decoration: none;
-    color: inherit;
-}
 .item-box {
     display: flex;
     flex-wrap: wrap;

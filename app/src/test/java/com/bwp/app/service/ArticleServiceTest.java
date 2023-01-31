@@ -39,12 +39,12 @@ class ArticleServiceTest {
     void articlesByType() {
         // Given
         int type = 1;
-        given(articleRepository.findByType(type, pageable)).willReturn(Page.empty());
+        given(articleRepository.findTop5ByType(type, pageable)).willReturn(Page.empty());
         // When
         Page<ArticleDto> articleDtos = sut.articlesByType(type, pageable);
         // Then
         assertThat(articleDtos).isEmpty();
-        then(articleRepository).should().findByType(type, pageable);
+        then(articleRepository).should().findTop5ByType(type, pageable);
     }
 
     @DisplayName("유저 아이디에 따라 게시글리스트 조회")
