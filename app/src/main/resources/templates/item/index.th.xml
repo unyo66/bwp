@@ -1,0 +1,78 @@
+<?xml version="1.0"?>
+<thlogic>
+    <attr sel="#header" th:replace="header :: #header" />
+    <attr sel="#footer" th:replace="footer :: #footer" />
+
+    <!-- dropdown 에 정보 넣기 -->
+    <attr sel=".dropdown[0]">
+        <attr sel=".btn" th:text="'배전도'" />
+        <attr sel=".dropdown-menu" th:remove="all-but-first">
+            <attr sel="li/.dropdown-item[0]" th:each="rp : ${options.rp}"
+                  th:href="@{/items(roastingPoint=${rp},
+                origin=${param.origin})}"
+                  th:text="${rp}" />
+        </attr>
+    </attr>
+    <attr sel=".selected-opt-1" th:text="${param.roastingPoint}"/>
+    <attr sel=".dropdown[1]">
+        <attr sel=".btn" th:text="'원산지'" />
+        <attr sel=".dropdown-menu" th:remove="all-but-first">
+            <attr sel="li/.dropdown-item[0]" th:each="og : ${options.og}"
+                  th:href="@{/items(origin=${og},
+                roastingPoint=${param.roastingPoint})}"
+                  th:text="${og}" />
+        </attr>
+    </attr>
+    <attr sel=".selected-opt-2" th:text="${param.origin}"/>
+
+    <!-- 아이템 리스트에 정보 넣기  -->
+    <attr sel=".item-box">
+        <attr sel=".item[0]" th:href="@{'/items/' + ${item.id}}" th:each="item : ${items}">
+            <attr sel=".item-img-box">
+                <attr sel=".item-img" th:src="'https://' + ${item.thumbnailImg}" />
+                <attr sel=".item-detail">
+                    <attr sel=".item-roasting-point" th:text="${item.roastingPoint}" />
+                    <attr sel=".item-origin" th:text="${item.origin}" />
+                    <attr sel=".item-memo" th:text="${item.memo}" />
+                </attr>
+            </attr>
+            <attr sel=".item-info">
+                <attr sel=".item-name-box">
+                    <attr sel=".item-company" th:text="'[' + ${item.companyDto.name} + ']'" />
+                    <attr sel=".item-name" th:text="${item.name}" />
+                </attr>
+                <attr sel=".item-price-box">
+                    <attr sel=".item-price" th:text="|${#numbers.formatInteger(item.price, 0, 'COMMA')}원|" />
+                </attr>
+            </attr>
+        </attr>
+    </attr>
+    <attr sel=".no-result" th:if="${noResult}" th:text="'검색된 상품이 없습니다.'"></attr>
+
+    <!-- 페이지네이션  -->
+    <attr sel=".pagination">
+        <attr sel="li[0]/a"
+              th:href="@{/items(page=${items.number + 1},
+                sort=${param.sort},
+                roastingPoint=${param.roastingPoint},
+                origin=${param.origin})}"
+              th:class="'page-link' + (${items.number <= 0 ? ' disabled' : ''})"
+        />
+        <attr sel="li[1]" th:class="'page-item' + (${pageNumber} == ${items.number} ? ' active' : '')" th:each="pageNumber : ${paginationBarNumbers}">
+            <attr sel="a"
+                  th:text="${pageNumber + 1}"
+                  th:href="@{/items(page=${pageNumber},
+                sort=${param.sort},
+                roastingPoint=${param.roastingPoint},
+                origin=${param.origin})}"
+                  th:class="page-link" />
+        </attr>
+        <attr sel="li[2]/a"
+              th:href="@{/items(page=${items.number + 1},
+                sort=${param.sort},
+                roastingPoint=${param.roastingPoint},
+                origin=${param.origin})}"
+              th:class="'page-link' + (${items.number} >= ${items.totalPages - 1} ? ' disabled' : '')"
+        />
+    </attr>
+</thlogic>

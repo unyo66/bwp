@@ -17,7 +17,7 @@ import java.util.Objects;
         @Index(columnList = "nickname", unique = true),
         @Index(columnList = "createdAt")
 })
-public class UserAccount {
+public class UserAccount extends AuditingFields {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
@@ -45,13 +45,13 @@ public class UserAccount {
     @Column
     private String notice;
 
-    @CreatedDate
-    @Column(nullable = false)
-    private LocalDateTime createdAt;
-
-    @CreatedDate
-    @Column
-    private LocalDateTime modifiedAt;
+//    @CreatedDate
+//    @Column(nullable = false)
+//    private LocalDateTime createdAt;
+//
+//    @CreatedDate
+//    @Column
+//    private LocalDateTime modifiedAt;
 
 
     protected UserAccount(){}

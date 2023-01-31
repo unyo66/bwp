@@ -1,0 +1,27 @@
+.comment-info {
+    display: flex;
+}
+.d-1 {
+    margin-left: 1rem;
+}
+.d-2 {
+    margin-left: 3rem;
+}
+.d-3 {
+    margin-left: 5rem;
+}
+.d-4 {
+    margin-left: 7rem;
+}
+.d-5 {
+    margin-left: 9rem;
+}
+.comment-area {
+    position: relative;
+}
+.child-comment {
+    position: absolute;
+    top: -0.1rem;
+    transform: translateX(-200%);
+
+}

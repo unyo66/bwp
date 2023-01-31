@@ -189,6 +189,7 @@ class ItemOrderServiceTest {
                 createUserAccountDto(),
                 1L,
                 1,
+                1,
                 1
         );
     }
@@ -198,6 +199,7 @@ class ItemOrderServiceTest {
                 createUserAccountDto(),
                 1L,
                 orderStep,
+                1,
                 1
         );
     }
@@ -237,6 +239,7 @@ class ItemOrderServiceTest {
                 createUserAccount(),
                 1L,
                 2,
+                1,
                 1
         );
     }

@@ -1,0 +1,38 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+</head>
+<body>
+    <!--헤더를 템플릿으로 변경하기
+
+    -->
+    <header class="p-3 bg-black" id="header">
+        <div class="container">
+            <div class="d-flex flex-wrap align-items-center justify-content-center justify-content-lg-start">
+                <a href="/" class="d-flex align-items-center mb-2 mb-lg-0 col-3">
+                    <img src="/img/header/logo-img.png" id="logo-img">
+                </a>
+                <ul class="nav col-12 col-lg-auto me-lg-auto mb-2 justify-content-center mb-md-0">
+                    <li><a th:href="@{/items}" class="nav-link px-2 text-white">원두구매</a></li>
+                    <li><a th:href="@{/articles}" class="nav-link px-2 text-white">커뮤니티</a></li>
+                </ul>
+                <div class="text-end">
+                    <a th:href="@{/itemOrders/basket}"><img src="/img/header/basket-icon.png" role="button" id="basket-icon"></a>
+                    <a role="button" id="login" class="btn btn-outline-light me-2">로그인</a>
+                    <div class="dropdown" id="user-dropdown">
+                        <button class="btn btn-outline-light" type="button" data-bs-toggle="dropdown" aria-expanded="false" id="user-name">
+                            username
+                        </button>
+                        <ul class="dropdown-menu">
+                            <li><a class="dropdown-item" href="#">내 정보</a></li>
+                            <li><a class="dropdown-item" href="/logout">로그아웃</a></li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </header>
+</body>
+</html>

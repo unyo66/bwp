@@ -18,7 +18,6 @@ public record UserAccountDto(
     public static UserAccountDto of(Long id, String email, String pw, String nickname, String address, String phone, String notice) {
         return new UserAccountDto(id, email, pw, nickname, address, phone, notice, null, null);
     }
-
     /** entity -> dto */
     public static UserAccountDto from(UserAccount entity) {
         return new UserAccountDto(

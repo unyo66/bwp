@@ -105,6 +105,8 @@ class CommentServiceTest {
                 1L,
                 createUserAccountDto(),
                 1L,
+                1,
+                1,
                 "test content"
         );
     }
@@ -114,6 +116,8 @@ class CommentServiceTest {
                 1L,
                 createUserAccountDto(),
                 1L,
+                1,
+                1,
                 content
         );
     }
@@ -122,6 +126,8 @@ class CommentServiceTest {
                 createUserAccount(),
                 createArticle(),
                 1L,
+                1,
+                1,
                 "test content"
         );
     }
@@ -130,6 +136,8 @@ class CommentServiceTest {
                 createUserAccount(),
                 createArticle(),
                 1L,
+                1,
+                1,
                 content
         );
     }

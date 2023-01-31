@@ -1,0 +1,49 @@
+<?xml version="1.0"?>
+<thlogic>
+    <attr sel="#header" th:replace="header :: #header" />
+    <attr sel="#footer" th:replace="footer :: #footer" />
+
+    <!-- 게시판에 글 넣기 -->
+    <attr sel="#free-article">
+        <attr sel=".article-info-box">
+            <attr sel=".goto-article" th:href="@{/articles/1}" />
+        </attr>
+        <attr sel=".article-table">
+            <attr sel="tbody">
+                <attr sel="tr[0]" th:each="article : ${freeArticles}">
+                    <attr sel=".article-title/a" th:href="@{'/articles/detail/' + ${article.id}}" th:text="${article.title}" />
+                    <attr sel=".article-nickname" th:text="${article.userAccountDto.nickname}" />
+                    <attr sel=".article-created-at" th:text="${#temporals.format(article.createdAt, 'yyyy-MM-dd HH:mm')}" />
+                </attr>
+            </attr>
+        </attr>
+    </attr>
+    <attr sel="#tip-article">
+        <attr sel=".article-info-box">
+            <attr sel=".goto-article" th:href="@{/articles/2}" />
+        </attr>
+        <attr sel=".article-table">
+            <attr sel="tbody">
+                <attr sel="tr[0]" th:each="article : ${tipArticles}">
+                    <attr sel=".article-title/a" th:href="@{'/articles/detail/' + ${article.id}}" th:text="${article.title}" />
+                    <attr sel=".article-nickname" th:text="${article.userAccountDto.nickname}" />
+                    <attr sel=".article-created-at" th:text="${#temporals.format(article.createdAt, 'yyyy-MM-dd HH:mm')}" />
+                </attr>
+            </attr>
+        </attr>
+    </attr>
+    <attr sel="#review-article">
+        <attr sel=".article-info-box">
+            <attr sel=".goto-article" th:href="@{/articles/3}" />
+        </attr>
+        <attr sel=".article-table">
+            <attr sel="tbody">
+                <attr sel="tr[0]" th:each="article : ${reviewArticles}">
+                    <attr sel=".article-title/a" th:href="@{'/articles/detail/' + ${article.id}}" th:text="${article.title}" />
+                    <attr sel=".article-nickname" th:text="${article.userAccountDto.nickname}" />
+                    <attr sel=".article-created-at" th:text="${#temporals.format(article.createdAt, 'yyyy-MM-dd HH:mm')}" />
+                </attr>
+            </attr>
+        </attr>
+    </attr>
+</thlogic>

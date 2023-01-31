@@ -11,12 +11,14 @@ public record CommentDto(
         Long articleId,
         UserAccountDto userAccountDto,
         Long parentId,
+        int commentOrder,
+        int cDepth,
         String content,
         LocalDateTime createdAt,
         LocalDateTime modifiedAt
 ) {
-    public static CommentDto of(Long articleId, UserAccountDto userAccountDto, Long parentId, String content) {
-        return new CommentDto(null, articleId, userAccountDto, parentId, content, null, null);
+    public static CommentDto of(Long articleId, UserAccountDto userAccountDto, Long parentId, int commentOrder, int cDepth, String content) {
+        return new CommentDto(null, articleId, userAccountDto, parentId, commentOrder, cDepth, content, null, null);
     }
 
     public static CommentDto from(Comment entity) {
@@ -25,6 +27,8 @@ public record CommentDto(
                 entity.getArticle().getId(),
                 UserAccountDto.from(entity.getUserAccount()),
                 entity.getParentId(),
+                entity.getCommentOrder(),
+                entity.getCDepth(),
                 entity.getContent(),
                 entity.getCreatedAt(),
                 entity.getModifiedAt()
@@ -36,6 +40,8 @@ public record CommentDto(
                 userAccount,
                 article,
                 parentId,
+                commentOrder,
+                cDepth,
                 content
         );
     }

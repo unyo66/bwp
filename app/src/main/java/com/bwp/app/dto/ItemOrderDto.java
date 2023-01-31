@@ -11,12 +11,16 @@ public record ItemOrderDto(
         ItemDto itemDto,
         UserAccountDto userAccountDto,
         Long itemCount,
-        int orderStep,
-        int optionGrinding,
+        Integer orderStep,
+        Integer optionGrinding,
+        Integer optionWeight,
         LocalDateTime createdAt
 ) {
-    public static ItemOrderDto of(ItemDto itemDto, UserAccountDto userAccountDto, Long itemCount, int orderStep, int optionGrinding) {
-        return new ItemOrderDto(null, itemDto, userAccountDto, itemCount, orderStep, optionGrinding, null);
+    public static ItemOrderDto of(Long id, ItemDto itemDto, UserAccountDto userAccountDto, Long itemCount, int orderStep, int optionGrinding, int optionWeight, LocalDateTime createdAt) {
+        return new ItemOrderDto(id, itemDto, userAccountDto, itemCount, orderStep, optionGrinding, optionWeight, createdAt);
+    }
+    public static ItemOrderDto of(ItemDto itemDto, UserAccountDto userAccountDto, Long itemCount, int orderStep, int optionGrinding, int optionWeight) {
+        return new ItemOrderDto(null, itemDto, userAccountDto, itemCount, orderStep, optionGrinding, optionWeight, null);
     }
 
 
@@ -29,6 +33,7 @@ public record ItemOrderDto(
                 entity.getItemCount(),
                 entity.getOrderStep(),
                 entity.getOptionGrinding(),
+                entity.getOptionWeight(),
                 entity.getCreatedAt());
     };
 
@@ -39,7 +44,8 @@ public record ItemOrderDto(
                 userAccount,
                 itemCount,
                 orderStep,
-                optionGrinding
+                optionGrinding,
+                optionWeight
         );
     }
 }

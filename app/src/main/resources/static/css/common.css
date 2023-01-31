@@ -1,0 +1,11 @@
+.breadcrumb {
+    margin: 1rem;
+}
+a {
+    text-decoration: none;
+    color: inherit;
+}
+
+li {
+    list-style: none;
+}

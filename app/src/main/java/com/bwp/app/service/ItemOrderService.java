@@ -1,10 +1,9 @@
 package com.bwp.app.service;
 
-import com.bwp.app.domain.Company;
-import com.bwp.app.domain.Item;
-import com.bwp.app.domain.ItemOrder;
-import com.bwp.app.domain.UserAccount;
+import com.bwp.app.domain.*;
+import com.bwp.app.dto.ItemDto;
 import com.bwp.app.dto.ItemOrderDto;
+import com.bwp.app.dto.UserAccountDto;
 import com.bwp.app.repository.CompanyRepository;
 import com.bwp.app.repository.ItemOrderRepository;
 import com.bwp.app.repository.ItemRepository;
@@ -15,6 +14,7 @@ import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+import org.springframework.web.bind.annotation.PathVariable;
 
 import javax.persistence.EntityNotFoundException;
 
@@ -54,15 +54,33 @@ public class ItemOrderService {
     }
 
     /** 새 주문 만들기 (유저용) */
-    @Transactional(readOnly = true)
     public void createOrder(ItemOrderDto itemOrderDto) {
-        UserAccount userAccount = userAccountRepository.getReferenceById(itemOrderDto.id());
-        Item item = itemRepository.getReferenceById(itemOrderDto.id());
-        itemOrderRepository.save(itemOrderDto.toEntity(item, userAccount));
+        try {
+            Item item = itemRepository.getReferenceById(itemOrderDto.itemDto().id());
+            UserAccount userAccount = userAccountRepository.getReferenceById(itemOrderDto.userAccountDto().id());
+            itemOrderRepository.save(itemOrderDto.toEntity(item, userAccount));
+        } catch (EntityNotFoundException e) {
+            log.warn("주문 저장 실패");
+        }
+
     }
+//    @Transactional(readOnly = true)
+//    public void createOrder(Long userId, Long itemId, int optionGrinding, int optionWeight, Long itemCount) {
+//        ItemDto item = itemRepository.findById(itemId).map(ItemDto::from).orElseThrow(NullPointerException::new);
+//        UserAccountDto user = userAccountRepository.findById(userId).map(UserAccountDto::from).orElseThrow(NullPointerException::new);
+//        ItemOrderDto itemOrderDto = ItemOrderDto.of(
+//                item,
+//                user,
+//                itemCount,
+//                2,
+//                optionGrinding,
+//                optionWeight
+//        );
+//        UserAccount userAccount = userAccountRepository.getReferenceById(itemOrderDto.id());
+//        itemOrderRepository.save(itemOrderDto.toEntity(item, userAccount));
+//    }
 
     /** orderStep 변경 (유저용) */
-    @Transactional(readOnly = true)
     public void updateOrderForUser(Long itemOrderId, ItemOrderDto newItemOrderDto) {
         try {
             ItemOrder oldItemOrder = itemOrderRepository.getReferenceById(itemOrderId);

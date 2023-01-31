@@ -1,0 +1,14 @@
+<?xml version="1.0"?>
+<thlogic>
+    <attr sel="#login" sec:authorize="!isAuthenticated()" th:href="@{/login}" />
+<!--    <attr sel="#sign-up" sec:authorize="!isAuthenticated()" th:href="@{/sign-up}" />-->
+    <attr sel="#basket-icon" sec:authorize="isAuthenticated()" />
+    <attr sel="#user-dropdown" sec:authorize="isAuthenticated()" class="dropdown" />
+    <attr sel="#user-name" sec:authorize="isAuthenticated()" sec:authentication="principal.nickname" />
+
+    <!-- sec 라는 시큐리티 태그임. 공식 홈페이지에서 DOC 으로 들어간 다음,  security
+
+    sec:authorize="isAuthenticated()  => 인증된 상태인지 확인하는 코드
+    sec:authentication="name"  => 인증된 결과에 따라서 유저네임을 보여준다.
+    -->
+</thlogic>

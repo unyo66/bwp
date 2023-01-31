@@ -1,0 +1,47 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="UTF-8">
+  <title>게시판 페이지</title>
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-GLhlTQ8iRABdZLl6O3oVMWSktQOp6b7In1Zl3/Jr59b6EGGoI1aFkw7cmDA6j6gD" crossorigin="anonymous">
+  <link rel="stylesheet" href="/css/h_f.css">
+  <link rel="stylesheet" href="/css/common.css">
+  <link rel="stylesheet" href="/css/article/detail.css">
+</head>
+<body>
+  <header id="header"></header>
+  <nav style="--bs-breadcrumb-divider: '>';" aria-label="breadcrumb">
+    <ol class="breadcrumb">
+      <li class="breadcrumb-item"><a href="#">홈</a></li>
+      <li class="breadcrumb-item"><a href="#">커뮤니티</a></li>
+      <li class="breadcrumb-item active" aria-current="page" id="breadcrumb-article-type">게시판</li>
+    </ol>
+  </nav>
+  <div class="container">
+    <div class="user-box">
+
+    </div>
+    <div class="article">
+      <div class="article-title"></div>
+      <div class="article-created-at"></div>
+      <div class="article-nickname"></div>
+      <br>
+      <div class="article-content"></div>
+    </div>
+    <div class="comment-box">
+      <ul class="comment-ul">
+        <li class="comment-area">
+          <div class="child-comment"></div>
+          <div class="comment-info">
+            <div class="comment-nickname">nickname</div>
+            <div class="comment-create-at">2023-01-23</div>
+            <a href="#" class="comment-delete">×</a>
+          </div>
+          <div class="comment-content"></div>
+        </li>
+      </ul>
+    </div>
+  </div>
+  <footer id="footer"></footer>
+</body>
+</html>

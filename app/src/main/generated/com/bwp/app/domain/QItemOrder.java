@@ -22,7 +22,10 @@ public class QItemOrder extends EntityPathBase<ItemOrder> {
 
     public static final QItemOrder itemOrder = new QItemOrder("itemOrder");
 
-    public final DateTimePath<java.time.LocalDateTime> createdAt = createDateTime("createdAt", java.time.LocalDateTime.class);
+    public final QAuditingFields _super = new QAuditingFields(this);
+
+    //inherited
+    public final DateTimePath<java.time.LocalDateTime> createdAt = _super.createdAt;
 
     public final NumberPath<Long> id = createNumber("id", Long.class);
 
@@ -30,7 +33,12 @@ public class QItemOrder extends EntityPathBase<ItemOrder> {
 
     public final NumberPath<Long> itemCount = createNumber("itemCount", Long.class);
 
+    //inherited
+    public final DateTimePath<java.time.LocalDateTime> modifiedAt = _super.modifiedAt;
+
     public final NumberPath<Integer> optionGrinding = createNumber("optionGrinding", Integer.class);
+
+    public final NumberPath<Integer> optionWeight = createNumber("optionWeight", Integer.class);
 
     public final NumberPath<Integer> orderStep = createNumber("orderStep", Integer.class);
 

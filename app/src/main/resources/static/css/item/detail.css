@@ -1,0 +1,59 @@
+.item-box {
+    display: flex;
+    justify-content: center;
+    gap: 5rem;
+}
+.item-img-box {
+
+}
+.item-img {
+    width: 70%;
+}
+.item-order-box {
+    /*width: 70%;*/
+    padding-top: 8rem;
+}
+.item-order-box {
+    width: 50%;
+    padding-top: 2rem;
+}
+.item-company, .item-name {
+    font-size: 1.5rem;
+}
+.item-order-box div {
+    width: 100%;
+    padding-bottom: 1rem;
+}
+.form-select {
+    width: 60%;
+}
+.btn-group {
+    display: flex;
+}
+.review-table {
+    width: 100%;
+}
+.review {
+    padding: 1rem 0;
+    text-align: center;
+    border-top: 1px solid #444;
+    border-bottom: 1px solid #444;
+    margin: 5rem 0 1rem;
+}
+td {
+    text-align: center;
+}
+.review-title {
+    text-overflow: ellipsis;
+    overflow: hidden;
+/*  TODO: 제목 안 넘치게 하기 */
+}
+tbody .review-title:hover {
+    font-weight: 600;
+}
+.review-nickname {
+    width: 15%;
+}
+.review-created-at {
+    width: 20%;
+}

@@ -5,6 +5,7 @@ import lombok.Setter;
 import lombok.ToString;
 import org.springframework.data.annotation.CreatedDate;
 import org.springframework.data.annotation.LastModifiedDate;
+import org.springframework.data.jpa.domain.support.AuditingEntityListener;
 
 import javax.persistence.*;
 import java.time.LocalDateTime;
@@ -12,7 +13,7 @@ import java.util.LinkedHashSet;
 import java.util.Objects;
 import java.util.Set;
 
-@EntityListeners(AutoCloseable.class)
+
 @Table(indexes = {
         @Index(columnList = "title"),
         @Index(columnList = "type"),
@@ -21,7 +22,7 @@ import java.util.Set;
 @Entity
 @Getter
 @ToString(callSuper = true) // 모든 필드에 toString, 다른데에 toString 까지 출력할 수 있게 callSuper
-public class Article {
+public class Article extends AuditingFields {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
@@ -53,13 +54,13 @@ public class Article {
     private String content;
 
     // 메타데이터
-    @CreatedDate
-    @Column(nullable = false)
-    private LocalDateTime createdAt;
-
-    @LastModifiedDate
-    @Column
-    private LocalDateTime modifiedAt;
+//    @CreatedDate
+//    @Column(nullable = false)
+//    private LocalDateTime createdAt;
+//
+//    @LastModifiedDate
+//    @Column
+//    private LocalDateTime modifiedAt;
 
 
     @OrderBy("id")
