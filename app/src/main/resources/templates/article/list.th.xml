@@ -23,4 +23,22 @@
             </attr>
         </attr>
     </attr>
+
+    <!-- 페이지네이션  -->
+    <attr sel=".pagination">
+        <attr sel="li[0]/a"
+              th:href="@{'/articles/' + ${type}(page=${articles.number + 1})}"
+              th:class="'page-link' + (${articles.number <= 0 ? ' disabled' : ''})"
+        />
+        <attr sel="li[1]" th:class="'page-item' + (${pageNumber} == ${articles.number} ? ' active' : '')" th:each="pageNumber : ${paginationBarNumbers}">
+            <attr sel="a"
+                  th:text="${pageNumber + 1}"
+                  th:href="@{'/articles/' + ${type}(page=${pageNumber})}"
+                  th:class="page-link" />
+        </attr>
+        <attr sel="li[2]/a"
+              th:href="@{'/articles/' + ${type}(page=${articles.number + 1})}"
+              th:class="'page-link' + (${articles.number} >= ${articles.totalPages - 1} ? ' disabled' : '')"
+        />
+    </attr>
 </thlogic>

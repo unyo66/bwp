@@ -32,8 +32,6 @@ public class ArticleService {
 
     private final CommentRepository commentRepository;
 
-    /** 모든 게시글 조회 (사용x) */
-
     /** 게시판 타입에 따라 게시글리스트 조회 5개씩 (게시판 메인) */
     @Transactional(readOnly = true)
     public Page<ArticleDto> fiveArticlesByType(int type, Pageable pageable) {
