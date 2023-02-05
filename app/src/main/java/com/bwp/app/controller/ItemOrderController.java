@@ -27,7 +27,7 @@ public class ItemOrderController {
     private final ItemOrderRepository itemOrderRepository;
     private final ItemOrderService itemOrderService;
 
-    @GetMapping("/order")//
+    @GetMapping("/orderList")//
     public String pay(@AuthenticationPrincipal BoardPrincipal boardPrincipal, ModelMap map, @PageableDefault(size = 10, sort = "createdAt", direction = Sort.Direction.DESC) Pageable pageable) {
         Page<ItemOrderDto> itemOrderDto = itemOrderRepository.findByUserAccount_Id(boardPrincipal.userId(), pageable).map(ItemOrderDto::from);
         map.addAttribute("itemOrders", itemOrderDto);
@@ -40,7 +40,7 @@ public class ItemOrderController {
         itemOrderService.createOrder(itemOrderRequest.toDto(itemDto, boardPrincipal.toDto()));
         System.out.println(itemOrderRequest);
         System.out.println(itemDto);
-        return "redirect:/itemOrders/order";
+        return "redirect:/itemOrders/basket";
     }
     @GetMapping("/basket")
     public String toBasket(@AuthenticationPrincipal BoardPrincipal boardPrincipal,
@@ -57,6 +57,15 @@ public class ItemOrderController {
         itemOrderService.createOrder(itemOrderRequest.toDto(itemDto, boardPrincipal.toDto()));
         System.out.println(itemOrderRequest);
         System.out.println(itemDto);
+        return "done";
+    }
+
+    @PostMapping("/basket/delete")
+    @ResponseBody
+    public String deleteBasket(@AuthenticationPrincipal BoardPrincipal boardPrincipal,
+                               @RequestBody Long itemOrderId) {
+        System.out.println(itemOrderId);
+        itemOrderService.deleteOrder(itemOrderId);
         return "done";
     }
 }

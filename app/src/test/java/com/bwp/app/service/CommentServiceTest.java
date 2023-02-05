@@ -5,6 +5,7 @@ import com.bwp.app.domain.Comment;
 import com.bwp.app.domain.UserAccount;
 import com.bwp.app.dto.ArticleDto;
 import com.bwp.app.dto.CommentDto;
+import com.bwp.app.dto.CommentRequest;
 import com.bwp.app.dto.UserAccountDto;
 import com.bwp.app.repository.ArticleRepository;
 import com.bwp.app.repository.CommentRepository;
@@ -54,16 +55,15 @@ class CommentServiceTest {
     @Test
     void saveComment() {
         // Given
-        CommentDto commentDto = createCommentDto();
-        given(articleRepository.getReferenceById(commentDto.articleId())).willReturn(createArticle());
+        CommentRequest commentRequest = createCommentRequest();
+        UserAccountDto userAccountDto = createUserAccountDto();
+        given(articleRepository.getReferenceById(commentRequest.articleId())).willReturn(createArticle());
         given(commentRepository.save(any(Comment.class))).willReturn(null);
-        given(userAccountRepository.getReferenceById(commentDto.userAccountDto().id())).willReturn(createUserAccount());
         // When
-        sut.saveComment(commentDto);
+//        sut.saveComment(commentRequest, userAccountDto);
         // Then
-        then(articleRepository).should().getReferenceById(commentDto.articleId());
+        then(articleRepository).should().getReferenceById(commentRequest.articleId());
         then(commentRepository).should().save(any(Comment.class));
-        then(userAccountRepository).should().getReferenceById(commentDto.userAccountDto().id());
     }
 
     @DisplayName("댓글 수정")
@@ -99,6 +99,16 @@ class CommentServiceTest {
 
 
     /////
+
+    private CommentRequest createCommentRequest() {
+        return CommentRequest.of(
+                1L,
+                1L,
+                1,
+                1,
+                "content"
+        );
+    }
 
     private CommentDto createCommentDto() {
         return CommentDto.of(

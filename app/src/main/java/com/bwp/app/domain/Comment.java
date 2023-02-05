@@ -46,7 +46,7 @@ public class Comment extends AuditingFields {
 
     @Setter
     @Column
-    private int cDepth;
+    private int commentDepth;
 
     @Setter
     @Column(nullable = false)
@@ -62,17 +62,17 @@ public class Comment extends AuditingFields {
 
     protected Comment() {}
 
-    private Comment(UserAccount userAccount, Article article, Long parentId, int commentOrder, int cDepth, String content) {
+    private Comment(UserAccount userAccount, Article article, Long parentId, int commentOrder, int commentDepth, String content) {
         this.userAccount = userAccount;
         this.article = article;
         this.parentId = parentId;
         this.content = content;
         this.commentOrder = commentOrder;
-        this.cDepth = cDepth;
+        this.commentDepth = commentDepth;
     }
 
-    public static Comment of(UserAccount userAccount, Article article, Long parentId, int commentOrder, int cDepth, String content) {
-        return new Comment(userAccount, article, parentId, commentOrder, cDepth, content);
+    public static Comment of(UserAccount userAccount, Article article, Long parentId, int commentOrder, int commentDepth, String content) {
+        return new Comment(userAccount, article, parentId, commentOrder, commentDepth, content);
     }
 
     @Override

@@ -11,15 +11,26 @@
         <attr sel=".article-nickname" th:text="${article.userAccountDto.nickname}" />
         <attr sel=".article-created-at" th:datetime="${article.createdAt}" th:text="${#temporals.format(article.createdAt, 'yyyy-MM-dd HH:mm')}" />
         <attr sel=".article-content" th:text="${article.content}" />
+        <attr sel=".article-control" sec:authorize="isAuthenticated()" th:class="'article-control ' + (${userAccount.userId == article.userAccountDto.id} ? '' : 'display-none')"/>
+    </attr>
+
+    <attr sel=".article-update" th:href="@{'/articles/'+${article.id}+'/form'}" />
+    <attr sel=".article-delete" th:href="@{'/articles/'+${article.id}+'/delete'}" />
+
+    <attr sel=".comment-input-box" sec:authorize="isAuthenticated()">
+        <attr sel=".create-comment-form">
+            <attr sel="#articleId" th:value="${article.id}" />
+        </attr>
     </attr>
     <attr sel=".comment-ul">
-        <attr sel="li[0]" th:each="comment : ${comments}" th:class="'d-' + ${comment.cDepth} + ' comment-area'">
+        <attr sel="li[0]" th:id="${comment.id}" th:each="comment : ${comments}" th:class="'d-' + ${comment.commentDepth} + ' comment-area'">
             <attr sel=".child-comment" th:text="${comment.parentId != null} ? 'L' : ''" />
             <attr sel=".comment-info">
                 <attr sel=".comment-nickname" th:text="${comment.userAccountDto.nickname}" />
                 <attr sel=".comment-create-at" th:datetime="${comment.createdAt}" th:text="${#temporals.format(comment.createdAt, 'yyyy-MM-dd HH:mm')}" />
-<!--                <attr sel=".comment-delete" sec:authorize="isAuthenticated()" th:class="${name == ${comment.userAccountDto.email}} ? 'x' : ''" /> TODO:삭제버튼 인증 -->
-                <attr sel=".comment-delete" sec:authorize="isAuthenticated()" sec:authentication="name"/> TODO:삭제버튼 인증
+                <attr sel=".comment-delete-box" sec:authorize="isAuthenticated()" th:class="'comment-delete-box ' + (${userAccount.userId == comment.userAccountDto.id} ? '' : 'display-none')" th:action="'/comment/' + ${comment.articleId} + '/' + ${comment.id} + '/delete'" />
+                <attr sel=".create-comment-radio" sec:authorize="isAuthenticated()" th:id="'rd-' + ${comment.id}" />
+                <attr sel=".create-comment-label" sec:authorize="isAuthenticated()" th:for="'rd-' + ${comment.id}" />
             </attr>
             <attr sel=".comment-content" th:text="${comment.content}" />
         </attr>

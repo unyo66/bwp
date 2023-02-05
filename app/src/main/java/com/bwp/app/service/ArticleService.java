@@ -75,8 +75,13 @@ public class ArticleService {
     public void updateArticle(Long articleId, ArticleDto newArticleDto) {
         try {
             Article oldArticle = articleRepository.getReferenceById(articleId);
-            UserAccount userAccount = userAccountRepository.getReferenceById(newArticleDto.id());
-            if (oldArticle.getUserAccount().equals(userAccount)) {
+            UserAccount userAccount = userAccountRepository.getReferenceById(newArticleDto.userAccountDto().id());
+            if (oldArticle.getUserAccount() == userAccount) {
+                System.out.println("update!!!\nupdate!!!\nupdate!!!\nupdate!!!\nupdate!!!\n");
+                oldArticle.setType(newArticleDto.type());
+                if (newArticleDto.itemId() != null) {
+                    oldArticle.setItemId(newArticleDto.itemId());
+                }
                 if (newArticleDto.title() != null) {
                     oldArticle.setTitle(newArticleDto.title());
                 }
@@ -87,6 +92,10 @@ public class ArticleService {
         } catch (EntityNotFoundException e) {
             log.warn("게시글이 없습니다.");
         }
+    }
+    /** 게시글 수정용 ArticleId 받아서 ArticleDto 빼주기 */
+    public ArticleDto getArticleById(Long articleId) {
+        return articleRepository.findById(articleId).map(ArticleDto::from).orElseThrow(() -> new EntityNotFoundException("게시글이 없습니다."));
     }
 
     /** 게시글 삭제 */

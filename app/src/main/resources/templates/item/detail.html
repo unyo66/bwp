@@ -59,7 +59,7 @@
             <div class="item-order-total-price"></div>
         </div>
         <div class="button-box">
-            <button type="button" class="to-basket" onclick="to_basket()">장바구니</button>
+            <button type="button" class="to-basket" onclick="to_basket(this)">장바구니</button>
             <button type="submit" class="to-pay">결제하기</button>
         </div>
     </form>
@@ -161,9 +161,12 @@
         let itemCount = document.getElementsByClassName("count-text")[0].value;
         return {itemId:itemId, orderStep:orderStep, optionGrinding:optionGrinding, optionWeight:optionWeight, itemCount:itemCount};
     }
-    function to_basket() {
+    function to_basket(n) {
         console.log("보낼 데이터 : " + getOpt());
         if (formCheck()) {
+            if (document.querySelector("#login") != null) {
+                document.location="/login";
+            }
             $.ajax({
                 type: 'POST',       // 요청 메서드
                 url: '/itemOrders/basket',  // 요청 URI
@@ -183,5 +186,8 @@
         }
     }
 </script>
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/js/bootstrap.bundle.min.js"
+        integrity="sha384-w76AqPfDkMBDXo30jS1Sgez6pr3x5MlQ1ZAGC+nuZB+EYdgRZgiwxhTBTkF7CXvN"
+        crossorigin="anonymous"></script>
 </body>
 </html>

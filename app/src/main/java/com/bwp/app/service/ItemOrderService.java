@@ -80,6 +80,11 @@ public class ItemOrderService {
 //        itemOrderRepository.save(itemOrderDto.toEntity(item, userAccount));
 //    }
 
+    /** order 삭제 */
+    public void deleteOrder(Long itemOrderId) {
+        itemOrderRepository.deleteById(itemOrderId);
+    }
+
     /** orderStep 변경 (유저용) */
     public void updateOrderForUser(Long itemOrderId, ItemOrderDto newItemOrderDto) {
         try {

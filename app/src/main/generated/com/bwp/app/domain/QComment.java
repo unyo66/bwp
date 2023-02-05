@@ -26,7 +26,7 @@ public class QComment extends EntityPathBase<Comment> {
 
     public final QArticle article;
 
-    public final NumberPath<Integer> cDepth = createNumber("cDepth", Integer.class);
+    public final NumberPath<Integer> commentDepth = createNumber("commentDepth", Integer.class);
 
     public final NumberPath<Integer> commentOrder = createNumber("commentOrder", Integer.class);
 

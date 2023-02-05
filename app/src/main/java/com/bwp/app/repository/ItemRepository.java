@@ -22,6 +22,8 @@ public interface ItemRepository extends
     Page<Item> findByOrigin(String origin, Pageable pageable);
     Page<Item> findByRoastingPointAndOrigin(String roastingPoint, String origin, Pageable pageable);
 
+    List<Item> findAllByCompany_Id(Long companyId);
+
     List<Item> findAllByOrderByCreatedAt();
 
     @Override

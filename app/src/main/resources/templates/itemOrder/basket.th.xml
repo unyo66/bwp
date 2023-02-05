@@ -16,5 +16,6 @@
          (${itemOrders.optionWeight} / 10 + 'kg'))"/>
         <attr sel=".total-price" th:text="|가격 : ${#numbers.formatInteger((itemOrders.itemDto.price * itemOrders.optionWeight), 0, 'COMMA')}원|" />
         <attr sel=".order-date" th:datetime="${itemOrders.createdAt}" th:text="'일자 : ' + ${#temporals.format(itemOrders.createdAt, 'yyyy-MM-dd HH:mm')}" />
+        <attr sel=".delete-basket" th:id="'delete-basket-' + ${itemOrders.id}" />
     </attr>
 </thlogic>

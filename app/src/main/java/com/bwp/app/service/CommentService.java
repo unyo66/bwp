@@ -4,6 +4,8 @@ import com.bwp.app.domain.Article;
 import com.bwp.app.domain.Comment;
 import com.bwp.app.domain.UserAccount;
 import com.bwp.app.dto.CommentDto;
+import com.bwp.app.dto.CommentRequest;
+import com.bwp.app.dto.UserAccountDto;
 import com.bwp.app.repository.ArticleRepository;
 import com.bwp.app.repository.CommentRepository;
 import com.bwp.app.repository.UserAccountRepository;
@@ -31,29 +33,38 @@ public class CommentService {
         return commentRepository.findByUserAccount_Id(userId).stream().map(CommentDto::from).toList();
     }
 
-    /** 댓글 저장 */
+    /** 댓글 생성 */
+//    public void saveComment(CommentRequest commentRequest, UserAccountDto userAccountDto) {
+//        try {
+//            Article article = articleRepository.getReferenceById(commentRequest.articleId());
+//            UserAccount userAccount = userAccountDto.toEntity();
+//            commentRepository.save(commentRequest.toEntity(userAccount, article));
+//        } catch (EntityNotFoundException e) {
+//            log.warn("댓글 저장 실패");
+//        }
+//    }
     public void saveComment(CommentDto commentDto) {
-        try {
-            Article article = articleRepository.getReferenceById(commentDto.articleId());
-            UserAccount userAccount = userAccountRepository.getReferenceById(commentDto.userAccountDto().id());
-            commentRepository.save(commentDto.toEntity(userAccount, article));
-        } catch (EntityNotFoundException e) {
-            log.warn("댓글 저장 실패");
-        }
+        UserAccount userAccount = userAccountRepository.getReferenceById(commentDto.userAccountDto().id());
+        Article article = articleRepository.getReferenceById(commentDto.articleId());
+        commentRepository.save(commentDto.toEntity(userAccount, article));
     }
+    
+//    /** 댓글 생성시 commentOrder 변경용 특정 게시글의 댓글 가져오기 */
+//    public List<CommentDto> commentsByArticleId(Long articleId) {
+//        return commentRepository.findByArticle_IdOrderByCommentOrder(articleId).stream().map(CommentDto::from).toList();
+//    }
 
     /** 댓글 수정 */
-    // 사실 인증 없어도 본인이 단 댓글에만 수정 삭제 버튼이 생기기 때문에 상관없음.
-    public void updateComment(CommentDto commentDto) {
-        try {
-            Comment comment = commentRepository.getReferenceById(commentDto.id());
-            if (commentDto.content() != null) {
-                comment.setContent(commentDto.content());
-            }
-        } catch (EntityNotFoundException e) {
-            log.warn("댓글이 없습니다.");
-        }
-    }
+//    public void updateComment(CommentDto commentDto) {
+//        try {
+//            Comment comment = commentRepository.getReferenceById(commentDto.id());
+//            if (commentDto.content() != null) {
+//                comment.setContent(commentDto.content());
+//            }
+//        } catch (EntityNotFoundException e) {
+//            log.warn("댓글이 없습니다.");
+//        }
+//    }
     /** 댓글 삭제 */
     public void deleteComment(Long commentId, Long userId) {
         commentRepository.deleteByIdAndUserAccount_Id(commentId, userId);

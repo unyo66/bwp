@@ -3,6 +3,7 @@
 <head>
   <meta charset="UTF-8">
   <title>게시판 페이지</title>
+  <script src="/js/jquery-1.12.4.js"></script>
   <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-GLhlTQ8iRABdZLl6O3oVMWSktQOp6b7In1Zl3/Jr59b6EGGoI1aFkw7cmDA6j6gD" crossorigin="anonymous">
   <link rel="stylesheet" href="/css/h_f.css">
   <link rel="stylesheet" href="/css/common.css">
@@ -25,17 +26,38 @@
       <div class="article-title"></div>
       <div class="article-created-at"></div>
       <div class="article-nickname"></div>
-      <br>
       <div class="article-content"></div>
+      <div class="article-control">
+        <a role="button" class="btn btn-outline-dark article-update">수정</a>
+        <a role="button" class="btn btn-outline-dark article-delete">삭제</a>
+      </div>
     </div>
     <div class="comment-box">
+      <div class="comment-box-notice">comment</div>
+      <div class="comment-input-box">
+        <input type="radio" class="create-comment-radio" name="create-comment-radio" id="rd-0" checked>
+        <label role="button" class="btn btn-secondary btn-sm open-input create-comment-label" onclick="to_comment_input('false')" for="rd-0">댓글쓰기</label>
+        <form class="create-comment-form" action="/comment/create" method="post">
+          <input type="hidden" id="articleId" name="articleId" value="">
+          <input type="hidden" id="parentId" name="parentId">
+          <input type="hidden" id="commentOrder" name="commentOrder" value="1">
+          <input type="hidden" id="commentDepth" name="commentDepth" value="1">
+          <input type="text" class="comment-input" value="" placeholder="댓글쓰기" name="content" required>
+          <button type="submit" class="submit-comment">확인</button>
+          <button type="button" class="cancel-comment" onclick="cancel_comment()">취소</button>
+        </form>
+      </div>
       <ul class="comment-ul">
         <li class="comment-area">
           <div class="child-comment"></div>
           <div class="comment-info">
             <div class="comment-nickname">nickname</div>
             <div class="comment-create-at">2023-01-23</div>
-            <a href="#" class="comment-delete">×</a>
+            <form class="comment-delete-box" action="" method="post" onsubmit="delete_comment()">
+              <button type="submit" class="comment-delete">×</button>
+            </form>
+            <input type="radio" class="create-comment-radio" name="create-comment-radio">
+            <label role="button" class="btn btn-secondary btn-sm open-input create-comment-label" onclick="to_comment_input(this)">답댓글쓰기</label>
           </div>
           <div class="comment-content"></div>
         </li>
@@ -43,5 +65,83 @@
     </div>
   </div>
   <footer id="footer"></footer>
+<script>
+  function to_comment_input(n) {
+    $(".comment-input").removeAttr("placeholder");
+    let comment_order = 1;
+    let comment_depth = 1;
+    if (n == "false") {
+      $(".comment-input").attr("placeholder", ("댓글쓰기 "));
+      $("#parentId").removeAttr("value");
+      $("#commentOrder").val(comment_order);
+      $("#commentDepth").val(comment_depth);
+    }
+    else {
+      let to_who = n.parentNode.children[0].innerText;
+      $(".comment-input").attr("placeholder", (to_who + " 에게 답댓글쓰기 "));
+
+      let parent_id = n.parentNode.parentNode.id;
+      console.log(parent_id);
+      $.ajax({
+        type: 'POST',       // 요청 메서드
+        url: '/comment/getParent',  // 요청 URI
+        headers: {"content-type": "application/json"}, // 요청 헤더
+        data: JSON.stringify(parent_id),
+        success: function (result) {
+          ///////////전송받은 데이터 처리 영역////////////
+          console.log(result);
+          comment_order = result.commentOrder + 1;
+          comment_depth = result.commentDepth + 1;
+          $("#parentId").val(parent_id);
+          $("#commentOrder").val(comment_order);
+          $("#commentDepth").val(comment_depth);
+        },
+        error: function () {
+          alert("error")
+        }
+      }); // $.ajax()
+    }
+    $(".comment-input").focus();
+  }
+  // function submit_comment(n) {
+  //   let comment_content = n.parentNode.children[1].value;
+  //   console.log(comment_content);
+  //   if (comment_content == '') { //TODO: 공백도 검사하게 하기 (지금은 내용이 없을때만 중지시킴)
+  //     alert("내용이 없습니다.")
+  //   }
+  //   else {
+  //     if (confirm("댓글을 등록하시겠습니까?")) {
+  //
+  //       $.ajax({
+  //         type: 'POST',       // 요청 메서드
+  //         url: '/comment/create',  // 요청 URI
+  //         headers: {"content-type": "application/json"}, // 요청 헤더
+  //         data: JSON.stringify(comment_content),
+  //         success: function (result) {
+  //           ///////////전송받은 데이터 처리 영역////////////
+  //           console.log('good');
+  //           if (result == "done") {
+  //             alert("댓글이 등록되었습니다.");
+  //             n.parentNode.remove();
+  //           }
+  //         },
+  //         error: function () {
+  //           alert("error")
+  //         }
+  //       }); // $.ajax()
+  //     }
+  //   }
+  // }
+  function cancel_comment() {
+    if (confirm("댓글 작성을 취소하시겠습니까?")) {
+      document.getElementsByClassName("comment-input")[0].value = '';
+      $(".create-comment-radio").eq(0).checked();
+    }
+  }
+  function delete_comment() {
+    return confirm("댓글을 삭제하시겠습니까?")
+  }
+</script>
+  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/js/bootstrap.bundle.min.js" integrity="sha384-w76AqPfDkMBDXo30jS1Sgez6pr3x5MlQ1ZAGC+nuZB+EYdgRZgiwxhTBTkF7CXvN" crossorigin="anonymous"></script>
 </body>
 </html>
