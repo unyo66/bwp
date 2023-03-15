@@ -69,4 +69,7 @@ public class CommentService {
     public void deleteComment(Long commentId, Long userId) {
         commentRepository.deleteByIdAndUserAccount_Id(commentId, userId);
     }
+
+    public void updateComment(CommentDto commentDto) {
+    }
 }

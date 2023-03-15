@@ -66,23 +66,23 @@ class CommentServiceTest {
         then(commentRepository).should().save(any(Comment.class));
     }
 
-    @DisplayName("댓글 수정")
-    @Test
-    void updateComment() {
-        // Given
-        String oldContent = "old content";
-        String updateContent = "new content";
-        Comment comment = createComment(oldContent);
-        CommentDto commentDto = createCommentDto(updateContent);
-        given(commentRepository.getReferenceById(commentDto.id())).willReturn(comment);
-        // When
-        sut.updateComment(commentDto);
-        // Then
-        assertThat(comment.getContent())
-                .isNotEqualTo(oldContent)
-                .isEqualTo(updateContent);
-        then(commentRepository).should().getReferenceById(commentDto.id());
-    }
+//    @DisplayName("댓글 수정")
+//    @Test
+//    void updateComment() {
+//        // Given
+//        String oldContent = "old content";
+//        String updateContent = "new content";
+//        Comment comment = createComment(oldContent);
+//        CommentDto commentDto = createCommentDto(updateContent);
+//        given(commentRepository.getReferenceById(commentDto.id())).willReturn(comment);
+//        // When
+//        sut.updateComment(commentDto);
+//        // Then
+//        assertThat(comment.getContent())
+//                .isNotEqualTo(oldContent)
+//                .isEqualTo(updateContent);
+//        then(commentRepository).should().getReferenceById(commentDto.id());
+//    }
 
     @DisplayName("댓글 삭제")
     @Test

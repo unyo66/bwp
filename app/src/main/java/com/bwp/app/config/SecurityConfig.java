@@ -38,7 +38,7 @@ public class SecurityConfig {
                         ).permitAll()
                         .mvcMatchers(  /* mvcMatchers: 스프링에 패턴 매칭 기능이 들어간 메서드. 컨트롤러에서 맵핑할때 "/articles/** /form" 이런식으로 경로 설정할때도 있는데 그런 특정 경로를 지정해서 권한을 설정할 수도 있게 하는 메서드임. */
                                 HttpMethod.GET, /* 특정 경로를 지정 하는 부분임. - GET 방식, 루트페이지, 게시판리스트 페이지 는  */
-                                "/", "/articles/**", "/items/**"
+                                "/", "/articles/**", "/items/**", "/register/**"
                         ).permitAll()  /* 권한을 허용하고 */
                         .anyRequest().authenticated() /* 그 외의 경로로 접근할때는 어떤 요청이든 authentication(인가) 과정을 거치도록 한다 */
                 )
